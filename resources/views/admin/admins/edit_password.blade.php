@@ -25,7 +25,7 @@
                 </div>
 
                 <div class="portlet-body ">
-                    <form  autocomplete="off" method="post" action="{{url(app()->getLocale().'/admin/admins/'.$item->id.'/edit_password')}}"
+                    <form  autocomplete="off" method="post" action="{{route('admin.admins.edit_password', $item->id)}}"
                           enctype="multipart/form-data" class="form-horizontal" role="form">
                         {{ csrf_field() }}
                         <div class="form-body form card-body border-top p-9">
