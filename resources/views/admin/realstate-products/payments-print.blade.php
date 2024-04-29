@@ -65,14 +65,32 @@
             vertical-align: middle;
             text-align: center;
         }
+
         .products table .name-txt {
             font-size: 14px;
         }
+
         .coupon-num {
             width: 65px;
             text-align: end;
             border: none;
             font-weight: bold;
+        }
+
+        .year-input {
+            width: 40px;
+            text-align: start;
+            border: none;
+            color: red;
+            font-weight: bold;
+        }
+
+        .coupon-type-select {
+            border: none;
+            font-weight: bold;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
         }
     </style>
 </head>
@@ -95,15 +113,27 @@
                 <div>{{ $realstate->client->name }}</div>
                 <div>OPU-IP: {{ $realstate->opu_ip }}</div>
                 <div>KO. {{ $realstate->address }}</div>
-                <div style="color: red">{{ $year }}. GODINA</div>
+                <div style="color: red"><input class="year-input" value="{{ $year }}">. GODINA</div>
             </div>
             <div class="coupon-info">
                 <div>Ilidža, {{ date('d/m/Y') }}</div>
-                <div class="d-flex" style="font-weight: bold; justify-content: space-between;">RAČUN BR: <input class="coupon-num coupon-num1" value="3/1/1" /></div>
+                <div class="d-flex" style="font-weight: bold; justify-content: space-between;">
+                    <select class="coupon-type-select">
+                        <option value="RAČUN BR:">RAČUN BR:</option>
+                        <option value="PREDRAČUN BR:">PREDRAČUN BR:</option>
+                        <option value="PONUDA BR:">PONUDA BR:</option>
+                    </select>
+                    <input class="coupon-num coupon-num1" value="3/1/1" />
+                </div>
+                {{-- <div class="d-flex" style="font-weight: bold; justify-content: space-between;">RAČUN BR: <input class="coupon-num coupon-num1" value="3/1/1" /></div> --}}
                 {{-- <div style="font-weight: bold;">PREDRAČUN BR: <span>3/1/1</span></div> --}}
                 {{-- <div style="font-weight: bold;">PONUDA BR: <span>3 /1/1</span></div> --}}
-                <div class="d-flex" style="justify-content: space-between;">Datum isporuke: <span>{{ $from_date }}</span></div>
-                <div class="d-flex" style="justify-content: space-between;">Datum valute: <span>{{ $to_date }}</span></div>
+                <div class="d-flex" style="justify-content: space-between;">Datum isporuke:
+                    <span>{{ $from_date }}</span>
+                </div>
+                <div class="d-flex" style="justify-content: space-between;">Datum valute:
+                    <span>{{ $to_date }}</span>
+                </div>
                 {{-- <div>Vrijeme izdavanja: 18:36</div> --}}
             </div>
         </div>
@@ -153,22 +183,23 @@
             <div class="col-md-5">
                 <div class="text-start"><b>Dokument izradio:</b></div>
                 <div class="text-start mt-5">
-                    M.P.	_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _		
-	                <div style="font-size: 10px; margin-inline-start: 80px;">Potpis</div>
+                    M.P. _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+                    <div style="font-size: 10px; margin-inline-start: 80px;">Potpis</div>
                 </div>
             </div>
         </div>
-        <div class="mt-5 mb-2" style="border-top: 1px dashed #8d8d8d; width: 100%; height: 1px; display: inline-block;"></div>
+        <div class="mt-5 mb-2" style="border-top: 1px dashed #8d8d8d; width: 100%; height: 1px; display: inline-block;">
+        </div>
         <div class="text-center my-2">Općinski sud u Sarajevu</div>
     </div>
     <script src="{{ asset('assets/js/jquery.min.js') }}"></script>
     <script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
     <script>
-        $(function(){
-            $('.coupon-num1').change(function(e){
+        $(function() {
+            $('.coupon-num1').change(function(e) {
                 $('.coupon-num2').val($(this).val());
             });
-            $('.coupon-num2').change(function(e){
+            $('.coupon-num2').change(function(e) {
                 $('.coupon-num1').val($(this).val());
             });
         })
