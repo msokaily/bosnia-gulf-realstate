@@ -64,7 +64,7 @@ Route::group(['middleware' => ['ControlPanel'], 'prefix' => 'admin', 'as' => 'ad
     Route::resource('reports', 'Admin\ReportsController');
 
     Route::get('/admins/{id}/edit_password', 'Admin\AdminController@edit_password')->name('admins.edit_password');
-    // Route::post('/admins/{id}/edit_password', 'Admin\AdminController@update_password')->name('admins.edit_password');
+    Route::post('/admins/{id}/edit_password', 'Admin\AdminController@update_password')->name('admins.edit_password');
 
     Route::group(['middleware' => ['admin']], function () {
         Route::get('/admin', function () {
