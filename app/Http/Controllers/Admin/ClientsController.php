@@ -51,7 +51,8 @@ class ClientsController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:191'
+            'name' => 'required|string|max:191',
+            'serial' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -60,6 +61,7 @@ class ClientsController extends Controller
 
         $table = new TableName();
         $table->name = request('name');
+        $table->serial = request('serial');
         $table->mobile = request('mobile', null);
         $table->email = request('email', null);
         $table->status = request('status', 1);
@@ -77,7 +79,8 @@ class ClientsController extends Controller
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:191'
+            'name' => 'required|string|max:191',
+            'serial' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -86,6 +89,7 @@ class ClientsController extends Controller
 
         $table = TableName::query()->findOrFail($id);
         $table->name = request('name');
+        $table->serial = request('serial');
         $table->mobile = request('mobile', null);
         $table->email = request('email', null);
         $table->status = request('status');

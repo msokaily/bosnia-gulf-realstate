@@ -119,12 +119,12 @@
                 <!--begin::Card title-->
             </div>
             {{-- <table id="" class="table table-row-bordered table-striped"> --}}
-            @csrf
-            <table id="kt_table_accounts" class="table table-row-bordered table-striped">
+            {{-- @csrf --}}
+            <table id="kt_table_accounts_clients" class="table table-row-bordered table-striped">
                 <thead>
                     <tr>
                         <th> {{ ucwords(__('common.number')) }}</th>
-                        <th> {{ ucwords(__('common.id')) }}</th>
+                        <th> {{ ucwords(__('common.serial')) }}</th>
                         <th> {{ ucwords(__('common.name')) }}</th>
                         <th> {{ ucwords(__('common.mobile')) }}</th>
                         <th> {{ ucwords(__('common.email')) }}</th>
@@ -141,10 +141,10 @@
                                 {{ $x++ }}
                             </td>
                             <td>
-                                {{ $item->id }}
+                                {{ $item->serial }}
                             </td>
-                            <td> <a style="color: black"
-                                    href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->name }}</a>
+                            <td>
+                                <a style="color: black" href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->name }}</a>
                             </td>
                             <td>{{ $item->mobile ?? '-' }}</td>
                             <td>{{ $item->email ?? '-' }}</td>
@@ -265,7 +265,9 @@
         }
 
         // Attach the showConfirmationDialog function to the form's submit event
-        document.getElementById('delete_form').addEventListener('submit', showConfirmationDialog);
+        if (document.getElementById('delete_form')) {
+            document.getElementById('delete_form').addEventListener('submit', showConfirmationDialog);
+        }
     </script>
     <script>
         $(function() {

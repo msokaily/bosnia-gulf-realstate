@@ -63,6 +63,20 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label required" for="serial">
+                                        {{ __('common.serial') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="serial" type="text"
+                                            name="serial" required class="form-control"
+                                            autocomplete="off" title="Please enter client serial"
+                                            placeholder="{{ __('common.serial') }}" value="{{ old("serial") }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
                                     <label class="col-sm-2 form-label" for="name">
                                         {{ __('common.name') }}
                                     </label>
