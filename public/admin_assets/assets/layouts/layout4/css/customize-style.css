@@ -1,0 +1,196 @@
+body{
+    font-family: 'Cairo', sans-serif;
+}
+.table-scrollable .dataTable td>.btn-group, .table-scrollable .dataTable th>.btn-group{
+    position: relative;
+}
+.table .btn-action > a{
+    margin-right: 5px !important;
+    display: inline-block;
+}
+.table-toolbar .btn-group button{
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.box-filter-collapse{
+    margin-top: 20px;
+    padding: 20px 0;
+    display: none;
+}
+#sample_1_filter{
+    display: none;
+}
+.symbol {
+    content: "*";
+    display: inline;
+    color: #E6674A;
+}
+
+.row.is-flex {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.row.is-flex > [class*='col-'] {
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+}
+
+.image-delete {
+    height: 200px;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    text-align: center;
+}
+image-delete > img {
+    margin: auto;
+    max-height: 100%;
+}
+
+.dt-buttons {
+    display: none;
+}
+
+select.form-control {
+    padding: 0px 10px;
+}
+
+.tac {
+    text-align: center;
+}
+
+.sep-half {
+    text-align: initial !important;
+}
+
+.margin {
+    margin: 10px !important;
+}
+
+.mv-10 {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+.mh-10 {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.mt-0 {
+    margin-top: 0 !important;
+}
+.mb-0 {
+    margin-bottom: 0 !important;
+}
+.mt-5 {
+    margin-top: 5px;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.mb-10 {
+    margin-bottom: 10px;
+}
+
+.nav-item .sub-menu {
+    /* margin-inline-start: 10px !important; */
+    border-bottom: 1px solid #e9e9e9;
+}
+
+.page-header.navbar .top-menu .navbar-nav>li.dropdown>.dropdown-toggle {
+    margin: 0;
+    padding: 29px 12px 24px !important;
+}
+
+.page-header.navbar .top-menu .navbar-nav>li>a {
+    margin: 0;
+    color: white;
+    padding: 29px 12px 24px !important;
+}
+.page-header.navbar .top-menu .navbar-nav>li>a:hover, .page-header.navbar .top-menu .navbar-nav>li>a:focus {
+    background-color: #3f4457;
+}
+
+.page-sidebar-closed .panel-logo {
+    display: none !important;
+}
+
+.portlet-title h4 {
+    font-weight: bold;
+}
+
+.page-sidebar .page-sidebar-menu>li.active.open>a, .page-sidebar .page-sidebar-menu>li.active>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.active.open>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.active>a {
+    color: #FF6922 !important;
+    border-color: #FF6922 !important;
+}
+
+.page-sidebar .page-sidebar-menu>li.active.open>a>i, .page-sidebar .page-sidebar-menu>li.active>a>i, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.active.open>a>i, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu>li.active>a>i {
+    color: #FF6922 !important;
+}
+
+.page-sidebar .page-sidebar-menu .sub-menu>li.active>a, .page-sidebar .page-sidebar-menu .sub-menu>li.open>a, .page-sidebar .page-sidebar-menu .sub-menu>li:hover>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu>li.active>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu>li.open>a, .page-sidebar-closed.page-sidebar-fixed .page-sidebar:hover .page-sidebar-menu .sub-menu>li:hover>a {
+    color: #FF6922 !important;
+}
+
+span.arrow-list {
+    float: right;
+}
+[dir="rtl"] span.arrow-list {
+    float: left;
+}
+li.open:not(.active) span.arrow-list {
+    transform: rotate(180deg);
+}
+li.open.active span.arrow-list {
+    transform: rotate(180deg);
+}
+
+.pagination>li>a, .pagination>li>button {
+    position: relative;
+    float: left;
+    padding: 6px 12px;
+    line-height: 1.42857;
+    text-decoration: none;
+    color: #337ab7;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    margin-left: -1px;
+}
+
+.right{
+    float: right;
+}
+
+.left{
+    float: left;
+}
+
+.logo_style{
+    color: white;
+}
+
+.profile-usermenu{
+    padding-left: 20px;
+}
+
+.dash-logo{
+    position: absolute;
+    left: 110px;
+    top: 50%;
+    height: 30px;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}

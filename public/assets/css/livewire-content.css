@@ -1,0 +1,30 @@
+content-tag {
+    position: relative;
+}
+.edit-content-btn {
+    padding: 2px;
+    font-size: 20px;
+    width: 35px;
+    position: absolute;
+    top: -40px;
+    left: 0;
+    border-radius: 5px;
+}
+
+.edit-mode-type-image input[type="file"] {
+    padding: 12px 20px;
+}
+
+.close-content-edit-modal:hover {
+    color: #2d2d2d;
+}
+.close-content-edit-modal {
+    padding: 0 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    color: #7e7e7e;
+}
+
+.force-display {
+  display: inline-block !important;
+}
