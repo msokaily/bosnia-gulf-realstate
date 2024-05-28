@@ -105,9 +105,9 @@
                                     </label>
                                     <div class="col-md-6">
                                         <input id="paid_at" type="date"
-                                            name="paid_at" required class="form-control"
+                                            name="paid_at" class="form-control"
                                             autocomplete="off" title="Please enter paid at"
-                                            placeholder="{{ __('common.paid_at') }}" value="{{ old("paid_at", $item->paid_at ? $item->paid_at->format('Y-m-d') : date('Y-m-d')) }}">
+                                            placeholder="{{ __('common.paid_at') }}" value="{{ old("paid_at", $item->paid_at ? $item->paid_at->format('Y-m-d') : null) }}">
                                     </div>
                                 </div>
                             </fieldset>

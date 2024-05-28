@@ -2,10 +2,17 @@
 
 return [
     
+    "extra_payment" => "دفعة إضافية",
+    "extra_payments" => "دفعات إضافية",
+    "construction_payment" => "دفعة بناء",
+    "construction_payments" => "دفعات البناء",
+    "reasons" => "أسباب الدفع",
+    "initial_payment" => "دفعة أولية",
+    "initial_payments" => "الدفعات الأولية",
     "payment" => "دفعة",
     "payments" => "دفعات",
     'realstate' => 'عقار',
-    'realstates' => 'العقارات',
+    'realestates' => 'العقارات',
     'client' => 'العميل',
     'clients' => 'العملاء',
 
@@ -39,7 +46,7 @@ return [
     'admins' => 'إدارة المشرفين',
     
     'categories' => 'التصنيفات',
-    'products' => "المنتجات",
+    'products' => "الفواتير",
 
 
 

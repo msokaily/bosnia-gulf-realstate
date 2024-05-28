@@ -94,6 +94,20 @@
                                 </div>
                             </fieldset>
 
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label required" for="currency">
+                                        {{ __('common.currency') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="currency" type="text"
+                                            name="currency" required class="form-control"
+                                            autocomplete="on" title="Please enter client currency"
+                                            placeholder="{{ __('common.currency') }}" value="{{ old("currency", $item->currency) }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
                             {{-- <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
                                     <label class="col-sm-2 form-label" for="year">

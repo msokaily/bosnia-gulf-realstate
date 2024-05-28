@@ -66,6 +66,12 @@
                         class="btn btn-sm btn-primary">{{ __('common.create_new') }}</a>
                     <!--end::Add user-->
                 </div>
+                <div class="m-0">
+                    <!--begin::Add user-->
+                    <a href="{{ route('admin.' . $page_name . '.payments-print') }}" target="_blank"
+                        class="btn btn-sm btn-warning">{{ __('common.report') }}</a>
+                    <!--end::Add user-->
+                </div>
             <!--end::Top Buttons-->
         </div>
         <!--end::Actions-->
@@ -166,8 +172,8 @@
                                         data-kt-accounts-table-filter="delete_row">{{ __('common.delete') }}</a>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
-                                    <a href="{{ route('admin.realstates.index') }}?client={{ $item->id }}"
-                                        class="menu-link px-3 btn btn-sm btn-dark">{{ __('common.realstates') }}</a>
+                                    <a href="{{ route('admin.realestates.index') }}?client={{ $item->id }}"
+                                        class="menu-link px-3 btn btn-sm btn-dark">{{ __('common.realestates') }}</a>
                                     <!--end::Menu item-->
                                 </div>
                                 <!--end::Menu-->

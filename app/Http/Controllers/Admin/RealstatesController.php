@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 class RealstatesController extends Controller
 {
-    static $name = 'realstates';
+    static $name = 'realestates';
 
     public function index(Request $request)
     {
@@ -67,6 +67,10 @@ class RealstatesController extends Controller
         $table = new TableName();
         $table->opu_ip = request('opu_ip', null);
         $table->address = request('address', null);
+        $table->meter_price = request('meter_price', null);
+        $table->area = request('area', null);
+        $table->initial_cost_total = request('initial_cost_total', null);
+        $table->construction_total = request('construction_total', null);
         $table->client_id = request('client_id');
         $table->status = request('status', 1);
         $table->save();
@@ -94,6 +98,10 @@ class RealstatesController extends Controller
         $table = TableName::query()->findOrFail($id);
         $table->opu_ip = request('opu_ip', null);
         $table->address = request('address', null);
+        $table->meter_price = request('meter_price', 0);
+        $table->area = request('area', 0);
+        $table->initial_cost_total = request('initial_cost_total', 0);
+        $table->construction_total = request('construction_total', 0);
         $table->status = request('status');
         $table->save();
 

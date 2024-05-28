@@ -1,7 +1,7 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'realestate-products';
-    $page_title = 'payments';
+    $page_name = 'initial-payments';
+    $page_title = 'initial_payments';
 @endphp
 @section('pageTitle')
     {{ $realstate->opu_ip ?? '' }} {{ ucwords(__('siderbar.' . $page_title)) }}
@@ -85,68 +85,15 @@
                     </div>
                     <!--end::Search-->
                 </div>
-                <!--begin::Card title-->
-                <div class="card-title">
-                    <!--begin::Form-->
-                    <form autocomplete="off" method="get" id="filter-form"
-                        action="{{ route("admin.$page_name.index") }}">
-                        <input type="hidden" name="realstate" value="{{request('realstate')}}">
-                        <div class="d-flex align-items-center position-relative">
-                            <!--begin::Input group-->
-                            <div class="me-5">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">{{ __('common.from_date') }}:</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <div>
-                                    <input autocomplete="off" class="form-control form-control-solid"
-                                        placeholder="{{ __('common.pick_a_date') }}" autocomplete="off"
-                                        type="date"
-                                        value="{{ $from_date }}" name="from_date"
-                                        id="from_date" />
-                                </div>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Input group-->
-                            <div class="me-5">
-                                <!--begin::Label-->
-                                <label class="form-label fw-semibold">{{ __('common.to_date') }}:</label>
-                                <!--end::Label-->
-                                <!--begin::Input-->
-                                <div>
-                                    <input autocomplete="off" class="pick_date- form-control form-control-solid"
-                                        placeholder="{{ __('common.pick_a_date') }}" autocomplete="off"
-                                        type="date"
-                                        value="{{ $to_date }}" name="to_date"
-                                        id="to_date" />
-                                </div>
-                                <!--end::Input-->
-                            </div>
-                            <!--end::Input group-->
-                            <!--begin::Actions-->
-                            <div>
-                                <label class="form-label fw-semibold">{{ __('common.actions') }}:</label>
-                                <div class="d-flex justify-content-end">
-                                    <a href="{{ route("admin.$page_name.index") }}?realstate={{request('realstate')}}&reset=true" type="reset"
-                                        class="btn btn-sm btn-light btn-active-light-primary me-2"
-                                        data-kt-menu-dismiss="true">{{ __('common.reset') }}</a>
-                                    <button type="submit" class="btn btn-sm btn-primary">{{ __('common.apply') }}</button>
-                                </div>
-                            </div>
-                            <!--end::Actions-->
-                        </div>
-                    </form>
-                    <!--end::Form-->
-                </div>
             </div>
         </div>
         <table id="kt_table_accounts" class="table table-row-bordered table-striped">
             <thead>
                 <tr>
                     <th> {{ ucwords(__('common.number')) }}</th>
-                    <th> {{ ucwords(__('common.product')) }}</th>
+                    <th> {{ ucwords(__('common.reason')) }}</th>
                     <th> {{ ucwords(__('common.amount')) }}</th>
+                    <th> {{ ucwords(__('common.note')) }}</th>
                     <th> {{ ucwords(__('common.paid_at')) }}</th>
                     <th> {{ ucwords(__('common.created')) }}</th>
                     <th> {{ ucwords(__('common.action')) }}</th>
@@ -160,10 +107,13 @@
                             {{ $x++ }}
                         </td>
                         <td>
-                            {{ $item->product->name }}
+                            {{ $item->reason->name }}
                         </td>
                         <td>
                             {{ decorate_numbers($item->amount) }}
+                        </td>
+                        <td>
+                            {{ $item->note ?? '-' }}
                         </td>
                         <td>
                             {!! $item->paid_at ? '<span class="text-success">'.$item->paid_at->format('Y-m-d').'</span>' : '<span class="text-danger">UnPaid</span>' !!}

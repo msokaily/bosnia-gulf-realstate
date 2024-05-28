@@ -1,17 +1,17 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'realstates';
+    $page_name = 'reasons';
 @endphp
 @section('pageTitle')
-    {{ucwords(__('siderbar.'.$page_name))}}
+    {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
 @section('title')
-    <a href="{{route('admin.'.$page_name.'.index')}}">{{ucwords(__('siderbar.'.$page_name))}}</a>
+    <a href="{{ route('admin.' . $page_name . '.index') }}">{{ ucwords(__('siderbar.' . $page_name)) }}</a>
 @endsection
 
 @section('css_file_upload')
-    <link href="{{admin_assets('/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css')}}" rel="stylesheet"
-          type="text/css"/>
+    <link href="{{ admin_assets('/global/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}" rel="stylesheet"
+        type="text/css" />
 @endsection
 
 @section('css')
@@ -48,71 +48,61 @@
         <div class="col-md-12">
             <!-- BEGIN SAMPLE FORM PORTLET-->
             <div class="card mb-5 mb-xl-10 portlet light bordered">
-                <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse" data-bs-target="#kt_account_profile_details" aria-expanded="true" aria-controls="kt_account_profile_details">
+                <div class="card-header border-0 cursor-pointer" role="button" data-bs-toggle="collapse"
+                    data-bs-target="#kt_account_profile_details" aria-expanded="true"
+                    aria-controls="kt_account_profile_details">
                     <!--begin::Card title-->
                     <div class="card-title m-0">
-                        <h3 class="fw-bold m-0">{{__('common.add')}}{{__('siderbar.'.$page_name)}}</h3>
+                        <h3 class="fw-bold m-0">{{ __('common.edit') }}{{ __('siderbar.' . $page_name) }}</h3>
                     </div>
                     <!--end::Card title-->
                 </div>
+
                 <div class="portlet-body ">
-                    <form  autocomplete="off" id="form_client" method="post" action="{{route('admin.'.$page_name.'.store')}}"
-                        enctype="multipart/form-data" class="form-horizontal" role="form">
+                    <form autocomplete="off" id="form_category" method="post"
+                        action="{{ route('admin.' . $page_name . '.update', [$item->id]) }}" enctype="multipart/form-data"
+                        class="form-horizontal" role="form">
+                        @method('PUT')
                         {{ csrf_field() }}
-                        <input type="hidden" name="client_id" value="{{request('client')}}">
                         <div class="form-body form card-body border-top p-9">
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="opu_ip">
-                                        {{ __('common.opu_ip') }}
+                                    <label class="col-sm-2 form-label" for="name">
+                                        {{ __('common.name') }}
                                     </label>
                                     <div class="col-md-6">
-                                        <input id="opu_ip" type="text"
-                                            name="opu_ip" class="form-control"
-                                            autocomplete="off" title="Please enter client opu_ip"
-                                            placeholder="{{ __('common.opu_ip') }}" value="{{ old("opu_ip") }}">
+                                        <input id="name" type="text"
+                                            name="name" required class="form-control"
+                                            autocomplete="off" title="Please enter client name"
+                                            placeholder="{{ __('common.name') }}" value="{{ old("name", $item->name) }}">
                                     </div>
                                 </div>
                             </fieldset>
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="address">
-                                        {{ __('common.address') }}
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input id="address" type="text"
-                                            name="address" class="form-control"
-                                            autocomplete="off" title="Please enter client address"
-                                            placeholder="{{ __('common.address') }}" value="{{ old("address") }}">
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            <fieldset class="mt-5">
-                                <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="status">
+                                    <label class="col-sm-2 form-label required" for="status">
                                         {{ __('common.status') }}
-                                        {{-- <span class="symbol">*</span> --}}
                                     </label>
                                     <div class="col-md-6">
                                         <select data-control="select2" id="status" name="status"
                                             class="form-select form-select-solid">
                                             @foreach ([(object)['id' => 1, 'name' => 'Active'], (object)['id' => 0, 'name' => 'InActive']] as $one)
-                                                <option @if (old('status', 1) == $one->id) selected @endif
+                                                <option @if (old('status', $item->status) == $one->id) selected @endif
                                                     value="{{ $one->id }}"> {{ $one->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                             </fieldset>
-                     
+
                         </div>
                         <div class="card-footer d-flex justify-content-end py-6 px-9">
-                            <a href="{{ route('admin.' . $page_name . '.index') }}?client={{request('client')}}" type="reset"
+                            <a href="{{ route('admin.' . $page_name . '.index') }}" type="reset"
                                 class="btn btn-light btn-active-light-primary me-2">{{ __('common.discard') }}</a>
-                            <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">{{__('common.save_changes')}}</button>
+                            <button type="submit" class="btn btn-primary"
+                                id="kt_account_profile_details_submit">{{ __('common.save_changes') }}</button>
                         </div>
                     </form>
                 </div>

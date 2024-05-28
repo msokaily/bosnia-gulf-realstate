@@ -2,10 +2,17 @@
 
 return [
 
-    "payment" => "Payment",
-    "payments" => "Payments",
-    'realstate' => 'Real state',
-    'realstates' => 'Real states',
+    "extra_payment" => "Extra Payment",
+    "extra_payments" => "Extra Payments",
+    "construction_payment" => "Construction Payment",
+    "construction_payments" => "Construction Payments",
+    "reasons" => "Payment Reasons",
+    "initial_payment" => "Initial Payment",
+    "initial_payments" => "Initial Payments",
+    "payment" => "Bill Payment",
+    "payments" => "Bills Payments",
+    'realstate' => 'Real estate',
+    'realestates' => 'Real estates',
     'client' => 'Client',
     'clients' => 'Clients',
 
@@ -15,7 +22,7 @@ return [
     'settings' => 'Settings',
     'Menu Settings' => 'Menu Settings',
     'categories' => 'Categories',
-    'products' => "Products",
+    'products' => "Bills",
 
     'durations' => 'Durations',
     'bookings' => 'Bookings',

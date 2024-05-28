@@ -14,7 +14,7 @@ class Client extends Model
 
     protected $translatable = [];
 
-    protected $fillable = ['name', 'mobile', 'email', 'status'];
+    protected $fillable = ['name', 'mobile', 'email', 'currency', 'status'];
 
     protected $appends = [];
 

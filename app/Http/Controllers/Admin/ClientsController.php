@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Imports\ClientsImport;
 use App\Models\Client as TableName;
 use App\Models\Log;
+use App\Models\Realstate;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Route;
 use Maatwebsite\Excel\Facades\Excel;
@@ -64,6 +65,7 @@ class ClientsController extends Controller
         $table->serial = request('serial');
         $table->mobile = request('mobile', null);
         $table->email = request('email', null);
+        $table->currency = request('currency');
         $table->status = request('status', 1);
         $table->save();
 
@@ -92,6 +94,7 @@ class ClientsController extends Controller
         $table->serial = request('serial');
         $table->mobile = request('mobile', null);
         $table->email = request('email', null);
+        $table->currency = request('currency');
         $table->status = request('status');
         $table->save();
 
@@ -121,5 +124,19 @@ class ClientsController extends Controller
         // }
 
         return redirect()->back()->with('status', __('common.users_imported_successfully'));
+    }
+
+    public function paymentsPrint(Request $request)
+    {
+        
+        $items = Realstate::query()->where('status', 1);
+
+        $items->whereHas('client', function($q) {
+            $q->groupBy('name');
+        });
+
+        $data['items'] = $items->get();
+        
+        return view("admin.".self::$name.".payments-print", $data);
     }
 }

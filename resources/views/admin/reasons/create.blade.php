@@ -1,13 +1,12 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'realstate-products';
-    $page_title = 'payments';
+    $page_name = 'reasons';
 @endphp
 @section('pageTitle')
-    {{ ucwords(__('siderbar.' . $page_title)) }}
+    {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
 @section('title')
-    <a href="{{ route('admin.' . $page_name . '.index') }}">{{ ucwords(__('siderbar.' . $page_title)) }}</a>
+    <a href="{{ route('admin.' . $page_name . '.index') }}">{{ ucwords(__('siderbar.' . $page_name)) }}</a>
 @endsection
 
 @section('css_file_upload')
@@ -54,7 +53,7 @@
                     aria-controls="kt_account_profile_details">
                     <!--begin::Card title-->
                     <div class="card-title m-0">
-                        <h3 class="fw-bold m-0">{{ __('common.add') }}{{ __('siderbar.' . $page_title) }}</h3>
+                        <h3 class="fw-bold m-0">{{ __('common.add') }}{{ __('siderbar.' . $page_name) }}</h3>
                     </div>
                     <!--end::Card title-->
                 </div>
@@ -63,19 +62,32 @@
                         action="{{ route('admin.' . $page_name . '.store') }}" enctype="multipart/form-data"
                         class="form-horizontal" role="form">
                         {{ csrf_field() }}
-                        <input type="hidden" name="realstate_id" value="{{request('realstate')}}">
                         <div class="form-body form card-body border-top p-9">
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label required" for="product_id">
-                                        {{ __('common.product') }}
+                                    <label class="col-sm-2 form-label" for="name">
+                                        {{ __('common.name') }}
                                     </label>
                                     <div class="col-md-6">
-                                        <select data-control="select2" id="product_id" name="product_id"
+                                        <input id="name" type="text"
+                                            name="name" required class="form-control"
+                                            autocomplete="off" title="Please enter client name"
+                                            placeholder="{{ __('common.name') }}" value="{{ old("name") }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label required" for="status">
+                                        {{ __('common.status') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select data-control="select2" id="status" name="status"
                                             class="form-select form-select-solid">
-                                            @foreach ($realstate->products as $one)
-                                                <option @if (old('product_id') == $one->id) selected @endif
+                                            @foreach ([(object)['id' => 1, 'name' => 'Active'], (object)['id' => 0, 'name' => 'InActive']] as $one)
+                                                <option @if (old('status', 1) == $one->id) selected @endif
                                                     value="{{ $one->id }}"> {{ $one->name }}</option>
                                             @endforeach
                                         </select>
@@ -83,37 +95,9 @@
                                 </div>
                             </fieldset>
 
-                            <fieldset class="mt-5">
-                                <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="amount">
-                                        {{ __('common.amount') }}
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input id="amount" type="text"
-                                            name="amount" required class="form-control"
-                                            autocomplete="off" title="Please enter amount"
-                                            placeholder="{{ __('common.amount') }}" value="{{ old("amount") }}">
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            <fieldset class="mt-5">
-                                <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="paid_at">
-                                        {{ __('common.paid_at') }}
-                                    </label>
-                                    <div class="col-md-6">
-                                        <input id="paid_at" type="date"
-                                            name="paid_at" class="form-control"
-                                            autocomplete="off" title="Please enter paid at"
-                                            placeholder="{{ __('common.paid_at') }}" value="{{ old("paid_at") }}">
-                                    </div>
-                                </div>
-                            </fieldset>
-
                         </div>
                         <div class="card-footer d-flex justify-content-end py-6 px-9">
-                            <a href="{{ route('admin.' . $page_name . '.index') }}?realstate={{request('realstate')}}" type="reset"
+                            <a href="{{ route('admin.' . $page_name . '.index') }}" type="reset"
                                 class="btn btn-light btn-active-light-primary me-2">{{ __('common.discard') }}</a>
                             <button type="submit" class="btn btn-primary"
                                 id="kt_account_profile_details_submit">{{ __('common.save_changes') }}</button>

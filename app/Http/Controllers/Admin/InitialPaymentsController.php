@@ -3,16 +3,16 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\RealstateProduct as TableName;
+use App\Models\InitialPayment as TableName;
 use App\Models\Realstate;
+use App\Models\Reasons;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
-class RealstateProductsController extends Controller
+class InitialPaymentsController extends Controller
 {
-    static $name = 'realstate-products';
+    static $name = 'initial-payments';
 
     public function index(Request $request)
     {
@@ -22,32 +22,14 @@ class RealstateProductsController extends Controller
         if ($realstate) {
             $items->where('realstate_id', $realstate);
         } else {
-            return redirect(route("admin.realstates.index"));
+            return redirect(route("admin.realestates.index"));
         }
 
-        $defaultFromDate = Carbon::now()->day(1)->format('Y-m-d');
-        $defaultToDate = Carbon::now()->format('Y-m-d');
-        
-        $sessionFromDate = $request->has('reset') ? $defaultFromDate : $request->session()->get('from_date', $defaultFromDate);
-        $sessionToDate = $request->has('reset') ? $defaultToDate : $request->session()->get('to_date', $defaultToDate);
-
-        $from_date = $request->input('from_date', $sessionFromDate);
-        $to_date = $request->input('to_date', $sessionToDate);
-        $items->whereDate('created_at', '>=', $from_date)->whereDate('created_at', '<=', $to_date);
         $items->orderBy('created_at', 'DESC');
-        
-        if ($request->input('from_date')) {
-            $request->session()->put('from_date', $from_date);
-        }
-        if ($request->input('to_date')) {
-            $request->session()->put('to_date', $to_date);
-        }
         
         return view("admin.".self::$name.".home", [
             'items' => $items->get(),
             'realstate' => Realstate::find($realstate),
-            'from_date' => $from_date,
-            'to_date' => $to_date
         ]);
 
     }
@@ -61,6 +43,7 @@ class RealstateProductsController extends Controller
     public function create()
     {
         $data['realstate'] = Realstate::findOrFail(request('realstate'));
+        $data['reasons'] = Reasons::get();
         return view("admin.".self::$name.".create", $data);
     }
 
@@ -74,7 +57,7 @@ class RealstateProductsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'realstate_id' => 'required',
-            'product_id' => 'required',
+            'reason_id' => 'required',
             'amount' => 'required|numeric',
         ]);
 
@@ -84,8 +67,9 @@ class RealstateProductsController extends Controller
 
         $table = new TableName();
         $table->realstate_id = request('realstate_id');
-        $table->product_id = request('product_id');
+        $table->reason_id = request('reason_id');
         $table->amount = request('amount');
+        $table->note = request('note');
         $table->paid_at = request('paid_at', null);
         $table->save();
         
@@ -96,13 +80,14 @@ class RealstateProductsController extends Controller
     {
         $data['item'] = TableName::findOrFail($id);
         $data['realstate'] = $data['item']->realstate;
+        $data['reasons'] = Reasons::get();
         return view("admin.".self::$name.".edit", $data);
     }
 
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'product_id' => 'required',
+            'reason_id' => 'required',
             'amount' => 'required|numeric',
         ]);
 
@@ -111,8 +96,9 @@ class RealstateProductsController extends Controller
         }
 
         $table = TableName::query()->findOrFail($id);
-        $table->product_id = request('product_id');
+        $table->reason_id = request('reason_id');
         $table->amount = request('amount');
+        $table->note = request('note');
         $table->paid_at = request('paid_at');
         $table->save();
 
@@ -126,34 +112,25 @@ class RealstateProductsController extends Controller
         $items = TableName::query();
         if ($realstate) {
             $data['realstate'] = $realstate;
-            $items->where('realstate_products.realstate_id', $realstate->id);
+            $items->where('initial_payments.realstate_id', $realstate->id);
         } else {
             return redirect()->back()->withInput()->withErrors(['Unknown real state!']);
         }
-        
 
-        $defaultFromDate = $request->session()->get('from_date', Carbon::now()->day(1)->format('Y-m-d'));
-        $defaultToDate = $request->session()->get('to_date', Carbon::now()->format('Y-m-d'));
-        
-        $from_date = $request->input('from_date', $defaultFromDate);
-        $to_date = $request->input('to_date', $defaultToDate);
-        $items->whereDate('paid_at', '>=', $from_date)->whereDate('paid_at', '<=', $to_date);
-        $items->groupBy('product_id');
+        $items->whereNotNull('paid_at');
         $items->orderBy('sort');
-        $items->join('products', 'realstate_products.product_id', '=', 'products.id');
-        $items->join('realstates', 'realstate_products.realstate_id', '=', 'realstates.id');
+        $items->join('reasons', 'initial_payments.reason_id', '=', 'reasons.id');
+        $items->join('realstates', 'initial_payments.realstate_id', '=', 'realstates.id');
         $items->select([
-            'product_id',
-            'products.name',
-            'products.sort',
-            DB::raw('SUM(amount) as total'),
+            'reason_id',
+            'reasons.name',
+            'reasons.sort',
+            'initial_payments.amount',
+            'initial_payments.note',
         ]);
 
-        $data['products'] = $items->get();
-        $data['from_date'] = $from_date;
-        $data['to_date'] = $to_date;
-        $data['year'] = Carbon::parse($from_date)->year;
-
+        $data['items'] = $items->get();
+        
         return view("admin.".self::$name.".payments-print", $data);
     }
 

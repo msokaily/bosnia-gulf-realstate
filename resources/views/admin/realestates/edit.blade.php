@@ -1,6 +1,6 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'realstates';
+    $page_name = 'realestates';
 @endphp
 @section('pageTitle')
     {{ ucwords(__('siderbar.' . $page_name)) }}
@@ -96,6 +96,62 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="meter_price">
+                                        {{ __('common.meter_price') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="meter_price" type="text"
+                                            name="meter_price" class="form-control"
+                                            autocomplete="off" title="Please enter real estate meter price"
+                                            placeholder="{{ __('common.meter_price') }}" value="{{ old("meter_price", $item->meter_price) }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="area">
+                                        {{ __('common.area') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="area" type="text"
+                                            name="area" class="form-control"
+                                            autocomplete="off" title="Please enter real estate area"
+                                            placeholder="{{ __('common.area') }}" value="{{ old("area", $item->area) }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="initial_cost_total">
+                                        {{ __('common.initial_cost_total') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="initial_cost_total" type="text"
+                                            name="initial_cost_total" class="form-control"
+                                            autocomplete="off" title="Please enter real estate initial total cost"
+                                            placeholder="{{ __('common.initial_cost_total') }}" value="{{ old("initial_cost_total", $item->initial_cost_total) }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="construction_total">
+                                        {{ __('common.construction_total') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="construction_total" type="text"
+                                            name="construction_total" class="form-control"
+                                            autocomplete="off" title="Please enter real estate construction total cost"
+                                            placeholder="{{ __('common.construction_total') }}" value="{{ old("construction_total", $item->construction_total) }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
                                     <label class="col-sm-2 form-label" for="status">
                                         {{ __('common.status') }}
                                         {{-- <span class="symbol">*</span> --}}
@@ -126,4 +182,21 @@
     </div>
 @endsection
 @section('script')
+<script>
+    $(function(){
+        function calcTotal() {
+            const meter_price = parseFloat($('input[name="meter_price"]').val());
+            const area = parseFloat($('input[name="area"]').val());
+            const initial_cost_total = parseFloat($('input[name="initial_cost_total"]').val());
+            const construction_total = parseFloat($('input[name="construction_total"]').val());
+            if (!construction_total) {
+                let total = (meter_price * area) + initial_cost_total;
+                $('input[name="construction_total"]').val(total);
+            }
+        }
+        $('input[name="meter_price"], input[name="area"], input[name="initial_cost_total"]').change(function() {
+            calcTotal();
+        });
+    });
+</script>
 @endsection

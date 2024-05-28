@@ -144,27 +144,8 @@ function truncateString($text, $maxLength = 300, $append = '...')
     }
 }
 
-function decorate_numbers($number, $comma = Null)
+function decorate_numbers($number, $digitsAfterDot = 2, $comma = ',')
 {
-    $formatted_number = number_format($number, 2, '.', '');
-    if ($formatted_number == '0.00') {
-        $formatted_number = '0.00';
-    } else {
-        $integer_part = explode('.', $formatted_number)[0];
-        $decimal_part = explode('.', $formatted_number)[1];
-        $formatted_integer_part = '';
-        $length = strlen($integer_part);
-        for ($i = 0; $i < $length; $i++) {
-            $formatted_integer_part .= $integer_part[$i];
-            if (($length - $i - 1) % 3 == 0 && $i != $length - 1) {
-                if($comma == true){
-                    $formatted_integer_part .= ',';
-                }else{
-                    $formatted_integer_part .= '\'';
-                }
-            }
-        }
-        $formatted_number = $formatted_integer_part . '.' . $decimal_part;
-    }
+    $formatted_number = number_format($number, $digitsAfterDot, '.', $comma);
     return $formatted_number;
 }

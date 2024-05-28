@@ -1,7 +1,7 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'realstate-products';
-    $page_title = 'payments';
+    $page_name = 'construction-payments';
+    $page_title = 'construction_payment';
 @endphp
 @section('pageTitle')
     {{ ucwords(__('siderbar.' . $page_title)) }}
@@ -68,31 +68,56 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label required" for="product_id">
-                                        {{ __('common.product') }}
-                                    </label>
-                                    <div class="col-md-6">
-                                        <select data-control="select2" id="product_id" name="product_id"
-                                            class="form-select form-select-solid">
-                                            @foreach ($realstate->products as $one)
-                                                <option @if (old('product_id') == $one->id) selected @endif
-                                                    value="{{ $one->id }}"> {{ $one->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                </div>
-                            </fieldset>
-
-                            <fieldset class="mt-5">
-                                <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="amount">
-                                        {{ __('common.amount') }}
+                                    <label class="col-sm-2 form-label required" for="amount">
+                                        {{ __('common.amount') }} ({{$realstate->client->currency}})
                                     </label>
                                     <div class="col-md-6">
                                         <input id="amount" type="text"
                                             name="amount" required class="form-control"
                                             autocomplete="off" title="Please enter amount"
                                             placeholder="{{ __('common.amount') }}" value="{{ old("amount") }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="amount_km">
+                                        {{ __('common.amount_km') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="amount_km" type="text"
+                                            name="amount_km" class="form-control"
+                                            autocomplete="off" title="Please enter amount_km"
+                                            placeholder="{{ __('common.amount_km') }}" value="{{ old("amount_km") }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+                            
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="reason">
+                                        {{ __('common.reason') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="reason" type="text"
+                                            name="reason" class="form-control"
+                                            autocomplete="on" title="Please enter payment reason"
+                                            placeholder="{{ __('common.reason') }}" value="{{ old("reason") }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="note">
+                                        {{ __('common.note') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="note" type="text"
+                                            name="note" class="form-control"
+                                            autocomplete="off" title="Please enter note"
+                                            placeholder="{{ __('common.note') }}" value="{{ old("note") }}">
                                     </div>
                                 </div>
                             </fieldset>

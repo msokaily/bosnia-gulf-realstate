@@ -1,16 +1,12 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'products';
+    $page_name = 'reasons';
 @endphp
 @section('pageTitle')
-    {{ $realstate->opu_ip ?? '' }} {{ ucwords(__('siderbar.' . $page_name)) }}
+    {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
 @section('title')
-    {{ ucwords(__('siderbar.' . $page_name)) }} ({{ $realstate->opu_ip ?? '' }})
-@endsection
-@section('prevTitle')
-    <a href="{{ route('admin.realestates.index') }}?client={{ $realstate->client_id }}"
-        class="text-muted text-hover-primary">{{ ucwords(__('common.realstate')) }} {{ $realstate->opu_ip ?? '' }}</a>
+    {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
 @if (isAdmin())
     @section('filter')
@@ -19,7 +15,7 @@
             <!--begin::Top Buttons-->
             <div class="m-0">
                 <!--begin::Add user-->
-                <a href="{{ route('admin.' . $page_name . '.create') }}?realstate={{ request('realstate') }}"
+                <a href="{{ route('admin.' . $page_name . '.create') }}"
                     class="btn btn-sm btn-primary">{{ __('common.create_new') }}</a>
                 <!--end::Add user-->
             </div>

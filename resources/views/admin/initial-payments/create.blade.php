@@ -1,7 +1,7 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'realstate-products';
-    $page_title = 'payments';
+    $page_name = 'initial-payments';
+    $page_title = 'initial_payment';
 @endphp
 @section('pageTitle')
     {{ ucwords(__('siderbar.' . $page_title)) }}
@@ -68,14 +68,14 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label required" for="product_id">
-                                        {{ __('common.product') }}
+                                    <label class="col-sm-2 form-label required" for="reason_id">
+                                        {{ __('common.reason') }}
                                     </label>
                                     <div class="col-md-6">
-                                        <select data-control="select2" id="product_id" name="product_id"
+                                        <select data-control="select2" id="reason_id" name="reason_id"
                                             class="form-select form-select-solid">
-                                            @foreach ($realstate->products as $one)
-                                                <option @if (old('product_id') == $one->id) selected @endif
+                                            @foreach ($reasons as $one)
+                                                <option @if (old('reason_id') == $one->id) selected @endif
                                                     value="{{ $one->id }}"> {{ $one->name }}</option>
                                             @endforeach
                                         </select>
@@ -93,6 +93,20 @@
                                             name="amount" required class="form-control"
                                             autocomplete="off" title="Please enter amount"
                                             placeholder="{{ __('common.amount') }}" value="{{ old("amount") }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="note">
+                                        {{ __('common.note') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="note" type="text"
+                                            name="note" class="form-control"
+                                            autocomplete="off" title="Please enter note"
+                                            placeholder="{{ __('common.note') }}" value="{{ old("note") }}">
                                     </div>
                                 </div>
                             </fieldset>

@@ -9,13 +9,18 @@ class Realstate extends Model
 
     protected $table = "realstates";
 
-    protected $fillable = ['opu_ip', 'address', 'status'];
+    protected $fillable = ['opu_ip', 'address', 'status', 'meter_price', 'area', 'initial_cost_total', 'construction_total'];
 
     protected $appends = [];
 
     public function products()
     {
         return $this->hasMany(Product::class, 'realstate_id');
+    }
+
+    public function construction_payments()
+    {
+        return $this->hasMany(ConstructionPayment::class, 'realstate_id');
     }
 
     public function client()
