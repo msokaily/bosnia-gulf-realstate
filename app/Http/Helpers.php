@@ -32,9 +32,10 @@ function isAdmin()
     return false;
 }
 
-function isCompany()
+function isSuperAdmin()
 {
-    if (auth()->check() && auth()->user()->role == 'Beneficiary') {
+    $user = auth()->user();
+    if (auth()->check() && $user->role == 'Admin' && $user->super_admin) {
         return true;
     }
     return false;

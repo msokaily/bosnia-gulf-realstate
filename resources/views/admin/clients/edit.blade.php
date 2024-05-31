@@ -6,7 +6,7 @@
     {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
 @section('title')
-    <a href="{{ route('admin.' . $page_name . '.index') }}">{{ ucwords(__('siderbar.' . $page_name)) }}</a>
+    <a href="{{ route('admin.' . $page_name . '.index') }}{{request()->has('all') ? '?all' : ''}}">{{ ucwords(__('siderbar.' . $page_name)) }}</a>
 @endsection
 
 @section('css_file_upload')
@@ -173,7 +173,7 @@
 
                         </div>
                         <div class="card-footer d-flex justify-content-end py-6 px-9">
-                            <a href="{{ route('admin.' . $page_name . '.index') }}" type="reset"
+                            <a href="{{ route('admin.' . $page_name . '.index') }}{{request()->has('all') ? '?all' : ''}}" type="reset"
                                 class="btn btn-light btn-active-light-primary me-2">{{ __('common.discard') }}</a>
                             <button type="submit" class="btn btn-primary"
                                 id="kt_account_profile_details_submit">{{ __('common.save_changes') }}</button>

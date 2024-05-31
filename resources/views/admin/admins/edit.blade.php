@@ -53,9 +53,26 @@
                         {{ method_field('PATCH')}}
                         <div class="form-body form card-body border-top p-9">
 
+                            {{-- <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label required" for="role">
+                                        {{ __('common.role') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select data-control="select2" id="role" name="role"
+                                            class="form-select form-select-solid">
+                                            @foreach ([(object)['id' => 'Admin', 'name' => 'Admin'], (object)['id' => 'BillsAdmin', 'name' => 'Bills Admin']] as $one)
+                                                <option @if (old('role', $item->role) == $one->id) selected @endif
+                                                    value="{{ $one->id }}"> {{ $one->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset> --}}
+                            
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="order">
+                                    <label class="col-sm-2 form-label" for="first_name">
                                         {{__('common.first_name')}}
                                         <span class="symbol">*</span>
                                     </label>
@@ -68,7 +85,7 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="order">
+                                    <label class="col-sm-2 form-label" for="last_name">
                                         {{__('common.last_name')}}
                                         {{-- <span class="symbol">*</span> --}}
                                     </label>
@@ -82,7 +99,7 @@
 
                             <fieldset class="mt-5">
                                     <div class="input-group input-group-solid mb-5">
-                                        <label class="col-sm-2 form-label" for="order">
+                                        <label class="col-sm-2 form-label" for="email">
                                             {{__('common.email')}}
                                             <span class="symbol">*</span>
                                         </label>
@@ -95,13 +112,12 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="phone">
-                                        {{__('common.phone')}}
-                                        {{-- <span class="symbol">*</span> --}}
+                                    <label class="col-sm-2 form-label" for="mobile">
+                                        {{__('common.mobile')}}
                                     </label>
                                     <div class="col-md-6">
-                                        <input autocomplete="off" type="text" name="phone" class="form-control"
-                                        placeholder="{{__('common.phone')}}" value="{{ $item->phone }}" >
+                                        <input autocomplete="off" type="text" name="mobile" class="form-control"
+                                        placeholder="{{__('common.mobile')}}" value="{{ $item->mobile }}" >
                                     </div>
                                 </div>
                             </fieldset>

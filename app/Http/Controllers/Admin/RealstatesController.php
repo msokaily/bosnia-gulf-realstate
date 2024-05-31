@@ -28,8 +28,6 @@ class RealstatesController extends Controller
             $items->where('client_id', $client);
         }
         
-        // $items = $items->orderBy('sort', 'asc');
-
         return view("admin." . self::$name . ".home", [
             'items' => $items->get(),
             'client' => Client::find($client)
@@ -71,6 +69,7 @@ class RealstatesController extends Controller
         $table->area = request('area', null);
         $table->initial_cost_total = request('initial_cost_total', null);
         $table->construction_total = request('construction_total', null);
+        $table->contractor_total = request('contractor_total');
         $table->client_id = request('client_id');
         $table->status = request('status', 1);
         $table->save();
@@ -102,6 +101,7 @@ class RealstatesController extends Controller
         $table->area = request('area', 0);
         $table->initial_cost_total = request('initial_cost_total', 0);
         $table->construction_total = request('construction_total', 0);
+        $table->contractor_total = request('contractor_total', 0);
         $table->status = request('status');
         $table->save();
 

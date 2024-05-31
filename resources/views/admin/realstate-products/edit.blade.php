@@ -1,6 +1,6 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'realstate-products';
+    $page_name = 'realestate-products';
     $page_title = 'payments';
 @endphp
 @section('pageTitle')

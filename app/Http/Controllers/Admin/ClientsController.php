@@ -25,7 +25,16 @@ class ClientsController extends Controller
             return redirect()->route($routeName);
         }
 
-        // $items = $items->orderBy('sort', 'asc');
+        if (!$request->has('all') && auth()->user()->super_admin) {
+            $items->whereHas('realstates', function($q) {
+                $q->whereNull('finished_at');
+            });
+        }
+        if (!auth()->user()->super_admin) {
+            $items->whereHas('realstates', function($q) {
+                $q->whereNotNull('finished_at');
+            });
+        }
 
         return view("admin." . self::$name . ".home", [
             'items' => $items->get()
@@ -129,10 +138,10 @@ class ClientsController extends Controller
     public function paymentsPrint(Request $request)
     {
         
-        $items = Realstate::query()->where('status', 1);
+        $items = Realstate::query()->where('status', 1)->whereNull('finished_at');
 
         $items->whereHas('client', function($q) {
-            $q->groupBy('name');
+            $q->orderBy('name')->groupBy('name');
         });
 
         $data['items'] = $items->get();

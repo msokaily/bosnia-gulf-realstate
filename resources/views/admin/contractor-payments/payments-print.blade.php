@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="{{app()->getLocale()}}" dir="{{app()->getLocale() == 'ar' ? 'rtl' : 'ltr'}}">
 
 <head>
     <meta charset="UTF-8">
@@ -60,11 +60,20 @@
         .products table tfoot td, .products table tfoot th {
             background-color: #fcfbfb;
         }
-
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
     </style>
 </head>
 
 <body>
+    @if (app()->getLocale() == 'ar')
+        <a class="btn btn-dark no-print" style="position: absolute; top: 20px; left: 20px;" href="{{ LaravelLocalization::getLocalizedURL('en', null, [], true) }}">EN</a>
+    @else
+        <a class="btn btn-dark no-print" style="position: absolute; top: 20px; left: 20px;" href="{{ LaravelLocalization::getLocalizedURL('ar', null, [], true) }}">AR</a>
+    @endif
     <div class="container">
         <div class="top-section mt-5" dir="ltr">
             <img src="{{ asset('assets/images/print-logo.jpg') }}" width="230px" height="120px" />
@@ -73,31 +82,31 @@
                 <div>Butmirska cesta 18, 71210 Ilidža</div>
                 <div>ID BROJ 4202429650000</div>
                 <div>Žiro račun BBI Bank dd Sarajevo 1413065320219104</div>
-                <div>Mob: 062/444-413, Tel: 033/943-551</div>
+                <div>Mob: 061/100-066, Tel: 033/943-551</div>
                 <div>e-mail: bosna.uocimagulfa@gmail.com</div>
             </div>
         </div>
-        <h2 style="text-align: center; font-weight: bold;" class="mb-3">تقرير دفعات البناء</h2>
+        <h2 style="text-align: center; font-weight: bold;" class="mb-3">{{__('common.contractor_report_title')}}</h2>
         <div class="user-info">
             <table class="table table-bordered">
                 <tbody>
                     <tr>
-                        <th>الإسم</th>
+                        <th>{{__('common.name')}}</th>
                         <td>{{$realstate->client->name}}</td>
-                        <th>العقار</th>
+                        <th>{{__('common.realestate')}}</th>
                         <td>{{$realstate->opu_ip}}</td>
                     </tr>
                     <tr>
-                        <th>عنوان العقار</th>
+                        <th>{{__('common.address')}}</th>
                         <td>{{$realstate->address}}</td>
-                        <th>المساحة</th>
-                        <td>{{$realstate->area}} م</td>
+                        <th>{{__('common.area')}}</th>
+                        <td>{{$realstate->area}} {{__('common.meter')}}</td>
                     </tr>
                     <tr>
-                        <th>سعر المتر</th>
-                        <td><span dir="ltr">{{decorate_numbers($realstate->meter_price, 0)}}</span> مارك</td>
-                        <th>التكلفة الكلية</th>
-                        <td><span dir="ltr">{{decorate_numbers($realstate->construction_total, 0)}}</span> مارك</td>
+                        <th>{{__('common.meter_price')}}</th>
+                        <td><span dir="ltr">{{decorate_numbers($realstate->meter_price, 0)}}</span> {{__('common.bam')}}</td>
+                        <th>{{__('common.total')}}</th>
+                        <td><span dir="ltr">{{decorate_numbers($realstate->contractor_total, 0)}}</span> {{__('common.bam')}}</td>
                     </tr>
                 </tbody>
             </table>
@@ -106,19 +115,18 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th colspan="4">الدفعات</th>
+                        <th colspan="4">{{__('common.payments_')}}</th>
                     </tr>
                     <tr>
-                        <th style="width: 70px;">الرقم</th>
-                        <th>القيمة</th>
-                        <th>تاريخ التحويل</th>
-                        <th>سبب التحويل</th>
+                        <th style="width: 70px;">{{__('common.number')}}</th>
+                        <th>{{__('common.amount')}}</th>
+                        <th>{{__('common.paid_at')}}</th>
+                        <th>{{__('common.reason')}}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @php
                         $total = 0;
-                        $total_km = 0;
                     @endphp
                     @foreach ($items as $index => $prod)
                         <tr>
@@ -129,20 +137,19 @@
                         </tr>
                         @php
                             $total += $prod->amount;
-                            $total_km += $prod->amount_km;
                         @endphp
                     @endforeach
                 </tbody>
                 <tfoot>
                     <tr>
-                        <td colspan="4"><b>المجموع</b></td>
+                        <td colspan="4"><b>{{__('common.sum')}}</b></td>
                     </tr>
                     <tr>
-                        <td colspan="2">ما تم تحويله</td>
-                        <td colspan="2">( <b dir="ltr">{{ decorate_numbers($total, 0) }}</b> {{$realstate->client->currency}} ) ما يعادل ( <b dir="ltr">{{ decorate_numbers($total_km, 0) }}</b> مارك بوسني )</td>
+                        <td colspan="2">{{__('common.paid')}}</td>
+                        <td colspan="2"><b dir="ltr">{{ decorate_numbers($total, 0) }}</b> {{__('common.bih_mark')}}</td>
                     </tr>
-                        <td colspan="2">متبقي البناء</td>
-                        <td colspan="2"><b dir="ltr">{{ decorate_numbers($realstate->construction_total - $total_km, 0) }}</b> مارك بوسني</td>
+                        <td colspan="2">{{__('common.remain')}}</td>
+                        <td colspan="2"><b dir="ltr">{{ decorate_numbers($realstate->contractor_total - $total, 0) }}</b> {{__('common.bih_mark')}}</td>
                     </tr>
                 </tfoot>
             </table>

@@ -9,7 +9,7 @@
     {{ ucwords(__('siderbar.' . $page_name)) }} ({{ $realstate->opu_ip ?? '' }})
 @endsection
 @section('prevTitle')
-    <a href="{{ route('admin.realestates.index') }}?client={{ $realstate->client_id }}"
+    <a href="{{ route('admin.realestates.index') }}?client={{ $realstate->client_id }}{{request()->has('all') ? '&all' : ''}}"
         class="text-muted text-hover-primary">{{ ucwords(__('common.realstate')) }} {{ $realstate->opu_ip ?? '' }}</a>
 @endsection
 @if (isAdmin())
@@ -108,8 +108,7 @@
                                     {{ $x++ }}
                                     <input type="hidden" name="sort[]" value="{{ $item->id }}">
                                 </td>
-                                <td> <a style="color: black"
-                                        href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->name }}</a>
+                                <td> <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->name }}</a>
                                 </td>
                                 <td class="center">{!! $item->status == 1
                                     ? '<span style="color: green;">Active</span>'

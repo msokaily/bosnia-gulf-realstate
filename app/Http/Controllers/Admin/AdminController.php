@@ -7,6 +7,7 @@ use App\Models\Settings;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 use Illuminate\Support\Facades\Validator;
@@ -71,7 +72,7 @@ class AdminController extends Controller
             // 'last_name' => 'required|string|max:191',
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,NULL,id,deleted_at,NULL'],
             'password' => 'required|min:6|max:191',
-            'confirm_password' => 'required|same:password|min:6|max:191',
+            'confirm_password' => 'required|same:password|min:6|max:191'
         ]);
 
         if ($validator->fails()) {
@@ -80,12 +81,11 @@ class AdminController extends Controller
 
         $newAdmin = new User();
         $newAdmin->role = 'Admin';
-        $newAdmin->activation_token = 'Admin';
-        $newAdmin->user_permission = 'Admin';
         $newAdmin->first_name = $request->first_name;
         $newAdmin->last_name = $request->last_name;
-        $newAdmin->phone = $request->phone;
+        $newAdmin->mobile = $request->mobile;
         $newAdmin->email = $request->email;
+        $newAdmin->status = 'Active';
         $newAdmin->password = bcrypt($request->password);
 
         $newAdmin->save();
@@ -98,13 +98,9 @@ class AdminController extends Controller
     public function edit($id)
     {
         $item = User::findOrFail($id);
-        // if ($item->id == 1 and Auth::User()->id != 1) {
-        //     abort('404');
-        // }
-
-        // if ($item->id != Auth::User()->id) {
-        //     abort('404');
-        // }
+        if ($item->id != Auth::User()->id && !Auth::User()->super_admin) {
+            abort('404');
+        }
         return view('admin.admins.edit', compact('item'));
     }
 
@@ -113,16 +109,9 @@ class AdminController extends Controller
     {
         $newAdmin = User::findOrFail($id);
 
-        // if ($newAdmin->id == 1 and Auth::User()->id != 1) {
-        //     abort('404');
-        // }
-
-        // if (Auth::User()->super_admin != 1) {
-        //     if ($newAdmin->id != Auth::User()->id) {
-        //         abort('404');
-        //     }
-        // }
-
+        if ($newAdmin->id != Auth::User()->id && !Auth::User()->super_admin) {
+            abort('404');
+        }
 
         $validator = Validator::make($request->all(), [
             'first_name' => 'required|string|max:191',
@@ -141,12 +130,11 @@ class AdminController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
-
         $newAdmin->first_name = $request->first_name;
         $newAdmin->last_name = $request->last_name;
 
         $newAdmin->email = $request->email;
-        $newAdmin->phone = $request->phone;
+        $newAdmin->mobile = $request->mobile;
         if (!empty($request->password))
             $newAdmin->password = bcrypt($request->password);
 
@@ -161,9 +149,9 @@ class AdminController extends Controller
     {
         $item = User::findOrFail($id);
 
-        // if ($item->id != Auth::User()->id) {
-        //     abort('404');
-        // }
+        if ($item->id != Auth::User()->id && !Auth::User()->super_admin) {
+            abort('404');
+        }
 
         return view('admin.admins.edit_password', ['item' => $item]);
     }
@@ -173,9 +161,9 @@ class AdminController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // if ($user->id != Auth::User()->id) {
-        //     abort('404');
-        // }
+        if ($user->id != Auth::User()->id && !Auth::User()->super_admin) {
+            abort('404');
+        }
 
         $users_rules = array(
             'password' => 'required|min:6|max:191',

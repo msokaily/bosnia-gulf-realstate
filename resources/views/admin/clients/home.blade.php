@@ -1,6 +1,8 @@
 @extends('layout.adminLayout')
 @php
     $page_name = 'clients';
+    $all = request()->has('all') && isSuperAdmin() ? '&all' : '';
+    $allQ = request()->has('all') && isSuperAdmin() ? '?all' : '';
 @endphp
 @section('pageTitle')
     {{ ucwords(__('siderbar.' . $page_name)) }}
@@ -8,75 +10,75 @@
 @section('title')
     {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
-@if (isAdmin())
-    @section('filter')
-        <!--begin::Actions-->
-        <div class="d-flex align-items-center gap-2 gap-lg-3" style="justify-content: flex-end;">
-            <!--begin::Top Buttons-->
-                {{-- <!--begin::Import menu-->
-                <div class="m-0">
-                    <!--begin::Menu toggle-->
-                    <a href="#" id="import_btn" class="btn btn-sm btn-warning" data-kt-menu-trigger="click"
-                        data-kt-menu-placement="{{ dropdown_direction('bottom-end') }}">{{ __('common.clients_import') }}</a>
-                    <!--end::Menu toggle-->
-                    <!--begin::Menu 1-->
-                    <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true"
-                        id="kt_menu_633f0992a4adff">
-                        <!--begin::Header-->
-                        <div class="px-7 py-5">
-                            <div class="fs-5 text-dark fw-bold">{{ __('common.clients_import') }}</div>
-                        </div>
-                        <!--end::Header-->
-                        <!--begin::Menu separator-->
-                        <div class="separator border-gray-200"></div>
-                        <!--end::Menu separator-->
-                        <!--begin::Form-->
-                        <form autocomplete="off" enctype="multipart/form-data" method="post" id="myformImport"
-                            action="{{ route('admin.clients_import') }}">
-                            @csrf
-                            <div class="px-7 py-5">
-                                <!--begin::Input group-->
-                                <div class="mb-10">
-                                    <!--begin::Label-->
-                                    <label class="form-label fw-semibold">{{ __('common.select_file') }}</label>
-                                    <!--end::Label-->
-                                    <!--begin::Input-->
-                                    <div>
-                                        <input autocomplete="off" required type="file" class="form-control"
-                                            accept=".xls,.csv,.xlsx" name="file">
-                                    </div>
-                                    <!--end::Input-->
-                                </div>
-                                <!--end::Input group-->
-                                <!--begin::Actions-->
-                                <div class="d-flex justify-content-end">
-                                    <button type="submit" class="btn btn-sm btn-primary">{{ __('common.submit') }}</button>
-                                </div>
-                                <!--end::Actions-->
-                            </div>
-                        </form>
-                        <!--end::Form-->
+@section('filter')
+    <!--begin::Actions-->
+    <div class="d-flex align-items-center gap-2 gap-lg-3" style="justify-content: flex-end;">
+        <!--begin::Top Buttons-->
+            {{-- <!--begin::Import menu-->
+            <div class="m-0">
+                <!--begin::Menu toggle-->
+                <a href="#" id="import_btn" class="btn btn-sm btn-warning" data-kt-menu-trigger="click"
+                    data-kt-menu-placement="{{ dropdown_direction('bottom-end') }}">{{ __('common.clients_import') }}</a>
+                <!--end::Menu toggle-->
+                <!--begin::Menu 1-->
+                <div class="menu menu-sub menu-sub-dropdown w-250px w-md-300px" data-kt-menu="true"
+                    id="kt_menu_633f0992a4adff">
+                    <!--begin::Header-->
+                    <div class="px-7 py-5">
+                        <div class="fs-5 text-dark fw-bold">{{ __('common.clients_import') }}</div>
                     </div>
-                    <!--end::Menu 1-->
+                    <!--end::Header-->
+                    <!--begin::Menu separator-->
+                    <div class="separator border-gray-200"></div>
+                    <!--end::Menu separator-->
+                    <!--begin::Form-->
+                    <form autocomplete="off" enctype="multipart/form-data" method="post" id="myformImport"
+                        action="{{ route('admin.clients_import') }}">
+                        @csrf
+                        <div class="px-7 py-5">
+                            <!--begin::Input group-->
+                            <div class="mb-10">
+                                <!--begin::Label-->
+                                <label class="form-label fw-semibold">{{ __('common.select_file') }}</label>
+                                <!--end::Label-->
+                                <!--begin::Input-->
+                                <div>
+                                    <input autocomplete="off" required type="file" class="form-control"
+                                        accept=".xls,.csv,.xlsx" name="file">
+                                </div>
+                                <!--end::Input-->
+                            </div>
+                            <!--end::Input group-->
+                            <!--begin::Actions-->
+                            <div class="d-flex justify-content-end">
+                                <button type="submit" class="btn btn-sm btn-primary">{{ __('common.submit') }}</button>
+                            </div>
+                            <!--end::Actions-->
+                        </div>
+                    </form>
+                    <!--end::Form-->
                 </div>
-                <!--end::Import menu--> --}}
-                <div class="m-0">
-                    <!--begin::Add user-->
-                    <a href="{{ route('admin.' . $page_name . '.create') }}"
-                        class="btn btn-sm btn-primary">{{ __('common.create_new') }}</a>
-                    <!--end::Add user-->
-                </div>
+                <!--end::Menu 1-->
+            </div>
+            <!--end::Import menu--> --}}
+            <div class="m-0">
+                <!--begin::Add user-->
+                <a href="{{ route('admin.' . $page_name . '.create') }}{{request()->has('all') ? '?all' : ''}}"
+                    class="btn btn-sm btn-primary">{{ __('common.create_new') }}</a>
+                <!--end::Add user-->
+            </div>
+            @if (isSuperAdmin())
                 <div class="m-0">
                     <!--begin::Add user-->
                     <a href="{{ route('admin.' . $page_name . '.payments-print') }}" target="_blank"
                         class="btn btn-sm btn-warning">{{ __('common.report') }}</a>
                     <!--end::Add user-->
                 </div>
-            <!--end::Top Buttons-->
-        </div>
-        <!--end::Actions-->
-    @endsection
-@endif
+            @endif
+        <!--end::Top Buttons-->
+    </div>
+    <!--end::Actions-->
+@endsection
 @push('style')
     <style>
         .search_div {
@@ -122,7 +124,19 @@
                     </div>
                     <!--end::Search-->
                 </div>
-                <!--begin::Card title-->
+                <!--end::Card title-->
+                @if (isSuperAdmin())
+                    <!--begin::Card title-->
+                    <div class="card-title">
+                        <!--begin::Search-->
+                        <div class="d-flex align-items-center position-relative my-1">
+                            <a class="btn btn-{{!request()->has('all') ? 'info' : 'medium'}}" href="{{route('admin.'.$page_name.'.index')}}">{{ __('common.filtered') }}</a>
+                            <a class="btn btn-{{request()->has('all') ? 'info' : 'medium'}}" href="{{route('admin.'.$page_name.'.index')}}?all">{{ __('common.all') }}</a>
+                        </div>
+                        <!--end::Search-->
+                    </div>
+                    <!--end::Card title-->
+                @endif
             </div>
             {{-- <table id="" class="table table-row-bordered table-striped"> --}}
             {{-- @csrf --}}
@@ -150,7 +164,7 @@
                                 {{ $item->serial }}
                             </td>
                             <td>
-                                <a style="color: black" href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->name }}</a>
+                                <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]).$allQ }}">{{ $item->name }}</a>
                             </td>
                             <td>{{ $item->mobile ?? '-' }}</td>
                             <td>{{ $item->email ?? '-' }}</td>
@@ -163,7 +177,7 @@
                                 <!--begin::Menu-->
                                 <div class="" style="">
                                     <!--begin::Menu item-->
-                                    <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}"
+                                    <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]).$allQ }}"
                                         class="menu-link px-3 btn btn-sm btn-info">{{ __('common.edit') }}</a>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
@@ -172,7 +186,7 @@
                                         data-kt-accounts-table-filter="delete_row">{{ __('common.delete') }}</a>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
-                                    <a href="{{ route('admin.realestates.index') }}?client={{ $item->id }}"
+                                    <a href="{{ route('admin.realestates.index') }}?client={{ $item->id.$all }}"
                                         class="menu-link px-3 btn btn-sm btn-dark">{{ __('common.realestates') }}</a>
                                     <!--end::Menu item-->
                                 </div>

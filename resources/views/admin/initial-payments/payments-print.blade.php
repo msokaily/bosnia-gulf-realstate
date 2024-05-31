@@ -73,11 +73,11 @@
                 <div>Butmirska cesta 18, 71210 Ilidža</div>
                 <div>ID BROJ 4202429650000</div>
                 <div>Žiro račun BBI Bank dd Sarajevo 1413065320219104</div>
-                <div>Mob: 062/444-413, Tel: 033/943-551</div>
+                <div>Mob: 061/100-066, Tel: 033/943-551</div>
                 <div>e-mail: bosna.uocimagulfa@gmail.com</div>
             </div>
         </div>
-        <h2 style="text-align: center; font-weight: bold;" class="mb-3">تقرير دفعات بناء أولية</h2>
+        <h2 style="text-align: center; font-weight: bold;" class="mb-3">تقرير دفعات بناء ما قبل البناء</h2>
         <div class="user-info">
             <table class="table table-bordered">
                 <tbody>
@@ -118,23 +118,35 @@
                 <tbody>
                     @php
                         $total = 0;
+                        $total_not_paid = 0;
                     @endphp
                     @foreach ($items as $index => $prod)
                         <tr>
-                            <td>{{ $index + 1 }}</td>
-                            <td dir="ltr">{{ decorate_numbers($prod->amount, 0) }}</td>
-                            <td style="text-align: start;">{{ $prod->name }}</td>
+                            <td style="{{!$prod->paid_at ? 'color: red;' : ''}}">{{ $index + 1 }}</td>
+                            <td dir="ltr" style="{{!$prod->paid_at ? 'color: red;' : ''}}">{{ decorate_numbers($prod->amount, 0) }}</td>
+                            <td style="text-align: start; {{!$prod->paid_at ? 'color: red;' : ''}}">{{ $prod->name }}</td>
                             <td>{{ $prod->note }}</td>
                         </tr>
                         @php
+                        if ($prod->paid_at) {
                             $total += $prod->amount;
+                        } else {
+                            $total_not_paid += $prod->amount;
+                        }
                         @endphp
                     @endforeach
                 </tbody>
                 <tfoot>
-                    <td>المجموع</td>
-                    <td dir="ltr"><b>{{ decorate_numbers($total, 0) }}</b></td>
-                    <td colspan="2">المبلغ بالمارك البوسني</td>
+                    <tr>
+                        <td colspan="4"><b>المجموع</b></td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">مدفوع</td>
+                        <td colspan="2"><b dir="ltr">{{ decorate_numbers($total, 0) }}</b> مارك بوسني</td>
+                    </tr>
+                        <td colspan="2">متبقي</td>
+                        <td colspan="2"><b dir="ltr" style="color: red;">{{ decorate_numbers($total_not_paid, 0) }}</b> مارك بوسني</td>
+                    </tr>
                 </tfoot>
             </table>
         </div>

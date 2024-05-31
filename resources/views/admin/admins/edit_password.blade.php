@@ -58,7 +58,7 @@
                         </div>
                          
                         <div class="card-footer d-flex justify-content-end py-6 px-9">
-                            <a href="{{url(getLocale().'/admin/admins')}}" type="reset" class="btn btn-light btn-active-light-primary me-2">{{__('common.discard')}}</a>
+                            <a href="{{route('admin.admins.index')}}" type="reset" class="btn btn-light btn-active-light-primary me-2">{{__('common.discard')}}</a>
                             <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">{{__('common.save_changes')}}</button>
                         </div>
                     </form>

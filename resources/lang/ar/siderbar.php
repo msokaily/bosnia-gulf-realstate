@@ -2,13 +2,15 @@
 
 return [
     
+    "contractor_payment" => "دفعة مقاول",
+    "contractor_payments" => "دفعات المقاول",
     "extra_payment" => "دفعة إضافية",
     "extra_payments" => "دفعات إضافية",
     "construction_payment" => "دفعة بناء",
     "construction_payments" => "دفعات البناء",
     "reasons" => "أسباب الدفع",
-    "initial_payment" => "دفعة أولية",
-    "initial_payments" => "الدفعات الأولية",
+    "initial_payment" => "ما قبل البناء",
+    "initial_payments" => "ما قبل البناء",
     "payment" => "دفعة",
     "payments" => "دفعات",
     'realstate' => 'عقار',

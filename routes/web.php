@@ -84,15 +84,11 @@ Route::group([
             Route::get('home', 'Admin\ReportsController@index')->name('home');
             // Route::post('ckeditor/upload', 'Admin\HomeController@upload')->name('ckeditor_upload');
 
-            ////// Users
-            Route::resource('/users', 'Admin\UsersController');
-
-            // Locations
-            Route::resource('locations', 'Admin\LocationsController');
-
             // Clients
-            Route::post('/clients_import', 'Admin\ClientsController@clients_import')->name('clients_import');
-            Route::get('/clients/print', 'Admin\ClientsController@paymentsPrint')->name('clients.payments-print');
+            Route::group(['middleware' => ['super_admin']], function () {
+                Route::post('/clients_import', 'Admin\ClientsController@clients_import')->name('clients_import');
+                Route::get('/clients/print', 'Admin\ClientsController@paymentsPrint')->name('clients.payments-print');
+            });
             Route::resource('clients', 'Admin\ClientsController');
 
             // Realestate Products
@@ -100,20 +96,10 @@ Route::group([
             Route::resource('realestate-products', 'Admin\RealstateProductsController');
             Route::get('realestate-products/pay/{id}', 'Admin\RealstateProductsController@pay')->name('realestate-products.pay');
 
-            // Inital Payments
-            Route::get('initial-payments/print/{id}', 'Admin\InitialPaymentsController@paymentsPrint')->name('initial-payments.payments-print');
-            Route::resource('initial-payments', 'Admin\InitialPaymentsController');
-            Route::get('initial-payments/pay/{id}', 'Admin\InitialPaymentsController@pay')->name('initial-payments.pay');
-
-            // Construction Payments
-            Route::get('construction-payments/print/{id}', 'Admin\ConstructionPaymentsController@paymentsPrint')->name('construction-payments.payments-print');
-            Route::resource('construction-payments', 'Admin\ConstructionPaymentsController');
-            Route::get('construction-payments/pay/{id}', 'Admin\ConstructionPaymentsController@pay')->name('construction-payments.pay');
-
-            // Extra Payments
-            Route::get('extra-payments/print/{id}', 'Admin\ExtraPaymentsController@paymentsPrint')->name('extra-payments.payments-print');
-            Route::resource('extra-payments', 'Admin\ExtraPaymentsController');
-            Route::get('extra-payments/pay/{id}', 'Admin\ExtraPaymentsController@pay')->name('extra-payments.pay');
+            // Contractor Payments
+            Route::get('contractor-payments/print/{id}', 'Admin\ContractorPaymentsController@paymentsPrint')->name('contractor-payments.payments-print');
+            Route::resource('contractor-payments', 'Admin\ContractorPaymentsController');
+            Route::get('contractor-payments/pay/{id}', 'Admin\ContractorPaymentsController@pay')->name('contractor-payments.pay');
 
             // Realstates
             Route::resource('realestates', 'Admin\RealstatesController');
@@ -122,16 +108,30 @@ Route::group([
             Route::resource('products', 'Admin\ProductsController');
             Route::post('products/sort', 'Admin\ProductsController@sort')->name('products.sort');
 
-            // Reasons
-            Route::resource('reasons', 'Admin\ReasonsController');
-            Route::post('reasons/sort', 'Admin\ReasonsController@sort')->name('reasons.sort');
+            Route::group(['middleware' => ['super_admin']], function () {
+                // Inital Payments
+                Route::get('initial-payments/print/{id}', 'Admin\InitialPaymentsController@paymentsPrint')->name('initial-payments.payments-print');
+                Route::resource('initial-payments', 'Admin\InitialPaymentsController');
+                Route::get('initial-payments/pay/{id}', 'Admin\InitialPaymentsController@pay')->name('initial-payments.pay');
 
-            ///// Reports
-            // Route::get('test_import', 'Admin\ReportsController@test_import');
+                // Construction Payments
+                Route::get('construction-payments/print/{id}', 'Admin\ConstructionPaymentsController@paymentsPrint')->name('construction-payments.payments-print');
+                Route::resource('construction-payments', 'Admin\ConstructionPaymentsController');
+                Route::get('construction-payments/pay/{id}', 'Admin\ConstructionPaymentsController@pay')->name('construction-payments.pay');
 
-            // Admin Management
-            Route::post('/admins/changeStatus', 'Admin\AdminController@changeStatus')->name('admin_changeStatus');
-            Route::resource('/admins', 'Admin\AdminController');
+                // Extra Payments
+                Route::get('extra-payments/print/{id}', 'Admin\ExtraPaymentsController@paymentsPrint')->name('extra-payments.payments-print');
+                Route::resource('extra-payments', 'Admin\ExtraPaymentsController');
+                Route::get('extra-payments/pay/{id}', 'Admin\ExtraPaymentsController@pay')->name('extra-payments.pay');
+                
+                // Reasons
+                Route::resource('reasons', 'Admin\ReasonsController');
+                Route::post('reasons/sort', 'Admin\ReasonsController@sort')->name('reasons.sort');
+
+                // Admin Management
+                Route::post('/admins/changeStatus', 'Admin\AdminController@changeStatus')->name('admin_changeStatus');
+                Route::resource('/admins', 'Admin\AdminController');
+            });
 
             ///// Settings
             Route::resource('/settings', 'Admin\SettingsController');

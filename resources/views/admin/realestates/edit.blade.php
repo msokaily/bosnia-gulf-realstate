@@ -6,7 +6,7 @@
     {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
 @section('title')
-    <a href="{{ route('admin.' . $page_name . '.index') }}">{{ ucwords(__('siderbar.' . $page_name)) }}</a>
+    <a href="{{ route('admin.' . $page_name . '.index') }}?client={{$item->client->id}}{{request()->has('all') ? '&all' : ''}}">{{ ucwords(__('siderbar.' . $page_name)) }}</a>
 @endsection
 
 @section('css_file_upload')
@@ -152,6 +152,20 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label" for="contractor_total">
+                                        {{ __('common.contractor_total') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <input id="contractor_total" type="text"
+                                            name="contractor_total" class="form-control"
+                                            autocomplete="off" title="Please enter real estate contractor total cost"
+                                            placeholder="{{ __('common.contractor_total') }}" value="{{ old("contractor_total", $item->contractor_total) }}">
+                                    </div>
+                                </div>
+                            </fieldset>
+
+                            <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
                                     <label class="col-sm-2 form-label" for="status">
                                         {{ __('common.status') }}
                                         {{-- <span class="symbol">*</span> --}}
@@ -190,7 +204,8 @@
             const initial_cost_total = parseFloat($('input[name="initial_cost_total"]').val());
             const construction_total = parseFloat($('input[name="construction_total"]').val());
             if (!construction_total) {
-                let total = (meter_price * area) + initial_cost_total;
+                let total = meter_price * area;
+                total += (total * 0.17);
                 $('input[name="construction_total"]').val(total);
             }
         }

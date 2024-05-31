@@ -1,6 +1,8 @@
 @extends('layout.adminLayout')
 @php
     $page_name = 'realestates';
+    $all = request()->has('all') ? '&all' : '';
+    $allQ = request()->has('all') ? '?all' : '';
 @endphp
 @section('pageTitle')
     {{ $client->name ?? '' }} {{ ucwords(__('siderbar.' . $page_name)) }}
@@ -9,24 +11,22 @@
     {{ ucwords(__('siderbar.' . $page_name)) }}
 @endsection
 @section('prevTitle')
-    <a href="{{route('admin.clients.index')}}" class="text-muted text-hover-primary">{{ ucwords(__('siderbar.clients')) }}</a>
+    <a href="{{route('admin.clients.index').$allQ}}" class="text-muted text-hover-primary">{{ ucwords(__('siderbar.clients')) }}</a>
 @endsection
-@if (isAdmin())
-    @section('filter')
-        <!--begin::Actions-->
-        <div class="d-flex align-items-center gap-2 gap-lg-3" style="justify-content: flex-end;">
-            <!--begin::Top Buttons-->
-                <div class="m-0">
-                    <!--begin::Add user-->
-                    <a href="{{ route('admin.' . $page_name . '.create') }}?client={{request('client')}}"
-                        class="btn btn-sm btn-primary">{{ __('common.create_new') }}</a>
-                    <!--end::Add user-->
-                </div>
-            <!--end::Top Buttons-->
-        </div>
-        <!--end::Actions-->
-    @endsection
-@endif
+@section('filter')
+    <!--begin::Actions-->
+    <div class="d-flex align-items-center gap-2 gap-lg-3" style="justify-content: flex-end;">
+        <!--begin::Top Buttons-->
+            <div class="m-0">
+                <!--begin::Add user-->
+                <a href="{{ route('admin.' . $page_name . '.create') }}?client={{request('client').$all}}"
+                    class="btn btn-sm btn-primary">{{ __('common.create_new') }}</a>
+                <!--end::Add user-->
+            </div>
+        <!--end::Top Buttons-->
+    </div>
+    <!--end::Actions-->
+@endsection
 @push('style')
     <style>
         .search_div {
@@ -72,7 +72,7 @@
                     </div>
                     <!--end::Search-->
                 </div>
-                <!--begin::Card title-->
+                <!--end::Card title-->
             </div>
             {{-- <table id="" class="table table-row-bordered table-striped"> --}}
             @csrf
@@ -84,8 +84,12 @@
                         <th> {{ ucwords(__('common.address')) }}</th>
                         <th> {{ ucwords(__('common.meter_price')) }}</th>
                         <th> {{ ucwords(__('common.area')) }}</th>
-                        <th> {{ ucwords(__('common.initial_cost_total')) }}</th>
-                        <th> {{ ucwords(__('common.construction_total')) }}</th>
+                        @if (isSuperAdmin())
+                            <th> {{ ucwords(__('common.initial_cost_total')) }}</th>
+                            <th> {{ ucwords(__('common.construction_total')) }}</th>
+                        @else
+                            <th> {{ ucwords(__('common.contractor_total')) }}</th>
+                        @endif
                         <th> {{ ucwords(__('common.status')) }}</th>
                         <th> {{ ucwords(__('common.created')) }}</th>
                         <th> {{ ucwords(__('common.action')) }}</th>
@@ -99,13 +103,17 @@
                                 {{ $x++ }}
                             </td>
                             <td>
-                                <a style="color: black" href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->opu_ip }}</a>
+                                <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]).$allQ}}">{{ $item->opu_ip }}</a>
                             </td>
                             <td>{{ $item->address ?? '-' }}</td>
                             <td>{{ $item->meter_price }}</td>
                             <td>{{ $item->area }}</td>
-                            <td>{{ $item->initial_cost_total }}</td>
-                            <td>{{ $item->construction_total }}</td>
+                            @if (isSuperAdmin())
+                                <td>{{ $item->initial_cost_total }}</td>
+                                <td>{{ $item->construction_total }}</td>
+                            @else
+                                <td>{{ $item->contractor_total }}</td>
+                            @endif
                             <td class="center">{!! $item->status == 1
                                 ? '<span style="color: green;">Active</span>'
                                 : '<span style="color: red;">InActive</span>' !!}</td>
@@ -115,7 +123,7 @@
                                 <!--begin::Menu-->
                                 <div class="" style="">
                                     <!--begin::Menu item-->
-                                    <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}"
+                                    <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]).$allQ}}"
                                         class="menu-link px-3 btn btn-sm btn-info mt-1">{{ __('common.edit') }}</a>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
@@ -124,27 +132,33 @@
                                         data-kt-accounts-table-filter="delete_row">{{ __('common.delete') }}</a>
                                     <!--end::Menu item-->
                                     <!--begin::Menu item-->
-                                    <a href="{{ route('admin.products.index') }}?realstate={{ $item->id }}"
+                                    <a href="{{ route('admin.products.index') }}?realstate={{ $item->id.$all }}"
                                         class="menu-link px-3 btn btn-sm btn-dark mt-1">{{ __('common.products') }}</a>
                                     <!--end::Menu item-->
-                                    <br>
                                     <!--begin::Menu item-->
-                                    <a href="{{ route('admin.realestate-products.index') }}?realstate={{ $item->id }}"
-                                        class="menu-link px-3 btn btn-sm btn-warning mt-1">{{ __('common.payments') }}</a>
-                                    <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <a href="{{ route('admin.initial-payments.index') }}?realstate={{ $item->id }}"
-                                        class="menu-link px-3 btn btn-sm btn-secondary mt-1">{{ __('common.initial_payments') }}</a>
+                                    <a href="{{ route('admin.realestate-products.index') }}?realstate={{ $item->id.$all }}"
+                                        class="menu-link px-3 btn btn-sm btn-info mt-1">{{ __('common.payments') }}</a>
                                     <!--end::Menu item-->
                                     <br>
                                     <!--begin::Menu item-->
-                                    <a href="{{ route('admin.construction-payments.index') }}?realstate={{ $item->id }}"
-                                        class="menu-link px-3 btn btn-sm btn-primary mt-1">{{ __('common.construction_payments') }}</a>
+                                    <a href="{{ route('admin.contractor-payments.index') }}?realstate={{ $item->id.$all }}"
+                                        class="menu-link px-3 btn btn-sm btn-warning mt-1">{{ __('common.contractor_payments') }}</a>
                                     <!--end::Menu item-->
-                                    <!--begin::Menu item-->
-                                    <a href="{{ route('admin.extra-payments.index') }}?realstate={{ $item->id }}"
-                                        class="menu-link px-3 btn btn-sm btn-dark mt-1">{{ __('common.extra_payments') }}</a>
-                                    <!--end::Menu item-->
+                                    @if (isSuperAdmin())
+                                        <!--begin::Menu item-->
+                                        <a href="{{ route('admin.initial-payments.index') }}?realstate={{ $item->id.$all }}"
+                                            class="menu-link px-3 btn btn-sm btn-secondary mt-1">{{ __('common.initial_payments') }}</a>
+                                        <!--end::Menu item-->
+                                        <br>
+                                        <!--begin::Menu item-->
+                                        <a href="{{ route('admin.construction-payments.index') }}?realstate={{ $item->id.$all }}"
+                                            class="menu-link px-3 btn btn-sm btn-primary mt-1">{{ __('common.construction_payments') }}</a>
+                                        <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        <a href="{{ route('admin.extra-payments.index') }}?realstate={{ $item->id.$all }}"
+                                            class="menu-link px-3 btn btn-sm btn-dark mt-1">{{ __('common.extra_payments') }}</a>
+                                        <!--end::Menu item-->
+                                    @endif
                                 </div>
                                 <!--end::Menu-->
                             </td>

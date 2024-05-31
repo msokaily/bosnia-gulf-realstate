@@ -10,7 +10,7 @@
     {{ ucwords(__('siderbar.' . $page_title)) }} ({{ $realstate->opu_ip ?? '' }}) - {{ $realstate->client->name }}
 @endsection
 @section('prevTitle')
-    <a href="{{ route('admin.realestates.index') }}?client={{ $realstate->client_id }}"
+    <a href="{{ route('admin.realestates.index') }}?client={{ $realstate->client_id }}{{request()->has('all') ? '&all' : ''}}"
         class="text-muted text-hover-primary">{{ ucwords(__('common.realstate')) }} {{ $realstate->opu_ip ?? '' }}</a>
 @endsection
 @if (isAdmin())

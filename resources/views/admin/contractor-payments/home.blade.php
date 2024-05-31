@@ -1,7 +1,7 @@
 @extends('layout.adminLayout')
 @php
-    $page_name = 'initial-payments';
-    $page_title = 'initial_payments';
+    $page_name = 'contractor-payments';
+    $page_title = 'contractor_payments';
 @endphp
 @section('pageTitle')
     {{ $realstate->opu_ip ?? '' }} {{ ucwords(__('siderbar.' . $page_title)) }}
@@ -85,14 +85,30 @@
                     </div>
                     <!--end::Search-->
                 </div>
+                <div class="card-title">
+                    <div>
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <th class="px-2">{{__('common.total')}}:</th>
+                                    <td><b class="text-danger">{{ decorate_numbers($realstate->contractor_total, 0) }}</b> BAM</td>
+                                </tr>
+                                <tr>
+                                    <th class="px-2">{{__('common.paid')}}:</th>
+                                    <td><b dir="ltr" class="text-success">{{ decorate_numbers($total_sum, 0) }}</b> BAM</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
         <table id="kt_table_accounts" class="table table-row-bordered table-striped">
             <thead>
                 <tr>
                     <th> {{ ucwords(__('common.number')) }}</th>
-                    <th> {{ ucwords(__('common.reason')) }}</th>
                     <th> {{ ucwords(__('common.amount')) }}</th>
+                    <th> {{ ucwords(__('common.reason')) }}</th>
                     <th> {{ ucwords(__('common.note')) }}</th>
                     <th> {{ ucwords(__('common.paid_at')) }}</th>
                     <th> {{ ucwords(__('common.created')) }}</th>
@@ -107,10 +123,10 @@
                             {{ $x++ }}
                         </td>
                         <td>
-                            {{ $item->reason->name }}
+                            {{ decorate_numbers($item->amount, 0) }}
                         </td>
                         <td>
-                            {{ decorate_numbers($item->amount) }}
+                            {{ $item->reason }}
                         </td>
                         <td>
                             {{ $item->note ?? '-' }}

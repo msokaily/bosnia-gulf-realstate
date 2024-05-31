@@ -60,6 +60,23 @@
                         {{ csrf_field() }}
                         <div class="form-body form card-body border-top p-9">
 
+                            {{-- <fieldset class="mt-5">
+                                <div class="input-group input-group-solid mb-5">
+                                    <label class="col-sm-2 form-label required" for="role">
+                                        {{ __('common.role') }}
+                                    </label>
+                                    <div class="col-md-6">
+                                        <select data-control="select2" id="role" name="role"
+                                            class="form-select form-select-solid">
+                                            @foreach ([(object)['id' => 'Admin', 'name' => 'Admin'], (object)['id' => 'BillsAdmin', 'name' => 'Bills Admin']] as $one)
+                                                <option @if (old('role') == $one->id) selected @endif
+                                                    value="{{ $one->id }}"> {{ $one->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </fieldset> --}}
+                            
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
                                     <label class="col-sm-2 form-label" for="order">
@@ -101,13 +118,12 @@
 
                             <fieldset class="mt-5">
                                 <div class="input-group input-group-solid mb-5">
-                                    <label class="col-sm-2 form-label" for="phone">
-                                        {{__('common.phone')}}
-                                        <span class="symbol">*</span>
+                                    <label class="col-sm-2 form-label" for="mobile">
+                                        {{__('common.mobile')}}
                                     </label>
                                     <div class="col-md-6">
-                                        <input autocomplete="off" type="phone" class="form-control" name="phone"
-                                        placeholder="{{__('common.phone')}}" value="{{ old('phone') }}" required>
+                                        <input autocomplete="off" type="mobile" class="form-control" name="mobile"
+                                        placeholder="{{__('common.mobile')}}" value="{{ old('mobile') }}">
                                     </div>
                                 </div>
                             </fieldset>
@@ -140,7 +156,7 @@
                             </fieldset>
                         </div>
                         <div class="card-footer d-flex justify-content-end py-6 px-9">
-                            <a href="{{url(getLocale().'/admin/admins')}}" type="reset" class="btn btn-light btn-active-light-primary me-2">{{__('common.discard')}}</a>
+                            <a href="{{route('admin.admins.index')}}" type="reset" class="btn btn-light btn-active-light-primary me-2">{{__('common.discard')}}</a>
                             <button type="submit" class="btn btn-primary" id="kt_account_profile_details_submit">{{__('common.save_changes')}}</button>
                         </div>
                     </form>

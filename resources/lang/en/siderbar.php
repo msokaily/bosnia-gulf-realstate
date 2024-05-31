@@ -2,13 +2,15 @@
 
 return [
 
+    "contractor_payment" => "Contractor Payment",
+    "contractor_payments" => "Contractor Payments",
     "extra_payment" => "Extra Payment",
     "extra_payments" => "Extra Payments",
     "construction_payment" => "Construction Payment",
     "construction_payments" => "Construction Payments",
     "reasons" => "Payment Reasons",
-    "initial_payment" => "Initial Payment",
-    "initial_payments" => "Initial Payments",
+    "initial_payment" => "Before construction Payment",
+    "initial_payments" => "Before construction Payments",
     "payment" => "Bill Payment",
     "payments" => "Bills Payments",
     'realstate' => 'Real estate',

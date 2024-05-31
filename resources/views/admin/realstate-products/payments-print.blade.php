@@ -104,7 +104,7 @@
                 <div>Butmirska cesta 18, 71210 Ilidža</div>
                 <div>ID BROJ 4202429650000</div>
                 <div>Žiro račun BBI Bank dd Sarajevo 1413065320219104</div>
-                <div>Mob: 062/444-413, Tel: 033/943-551</div>
+                <div>Mob: 061/100-066, Tel: 033/943-551</div>
                 <div>e-mail: bosna.uocimagulfa@gmail.com</div>
             </div>
         </div>

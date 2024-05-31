@@ -104,8 +104,7 @@
                                     {{ $x++ }}
                                     <input type="hidden" name="sort[]" value="{{ $item->id }}">
                                 </td>
-                                <td> <a style="color: black"
-                                        href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->name }}</a>
+                                <td> <a href="{{ route('admin.' . $page_name . '.edit', [$item->id]) }}">{{ $item->name }}</a>
                                 </td>
                                 <td class="center">{!! $item->status == 1
                                     ? '<span style="color: green;">Active</span>'

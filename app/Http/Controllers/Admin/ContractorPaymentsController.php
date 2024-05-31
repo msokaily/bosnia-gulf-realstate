@@ -3,16 +3,15 @@ namespace App\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Models\InitialPayment as TableName;
+use App\Models\ContractorPayment as TableName;
 use App\Models\Realstate;
-use App\Models\Reasons;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 
 
-class InitialPaymentsController extends Controller
+class ContractorPaymentsController extends Controller
 {
-    static $name = 'initial-payments';
+    static $name = 'contractor-payments';
 
     public function index(Request $request)
     {
@@ -25,12 +24,11 @@ class InitialPaymentsController extends Controller
             return redirect(route("admin.realestates.index"));
         }
 
-        $items->whereHas('reason', function($q) {
-            $q->orderBy('sort');
-        });
+        $items->orderBy('created_at', 'DESC');
         
         return view("admin.".self::$name.".home", [
             'items' => $items->get(),
+            'total_sum' => $items->whereNotNull('paid_at')->sum('amount'),
             'realstate' => Realstate::find($realstate),
         ]);
 
@@ -45,7 +43,6 @@ class InitialPaymentsController extends Controller
     public function create()
     {
         $data['realstate'] = Realstate::findOrFail(request('realstate'));
-        $data['reasons'] = Reasons::get();
         return view("admin.".self::$name.".create", $data);
     }
 
@@ -59,7 +56,6 @@ class InitialPaymentsController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'realstate_id' => 'required',
-            'reason_id' => 'required',
             'amount' => 'required|numeric',
         ]);
 
@@ -69,7 +65,7 @@ class InitialPaymentsController extends Controller
 
         $table = new TableName();
         $table->realstate_id = request('realstate_id');
-        $table->reason_id = request('reason_id');
+        $table->reason = request('reason');
         $table->amount = request('amount');
         $table->note = request('note');
         $table->paid_at = request('paid_at', null);
@@ -82,14 +78,12 @@ class InitialPaymentsController extends Controller
     {
         $data['item'] = TableName::findOrFail($id);
         $data['realstate'] = $data['item']->realstate;
-        $data['reasons'] = Reasons::get();
         return view("admin.".self::$name.".edit", $data);
     }
 
     public function update(Request $request, $id)
     {
         $validator = Validator::make($request->all(), [
-            'reason_id' => 'required',
             'amount' => 'required|numeric',
         ]);
 
@@ -98,7 +92,7 @@ class InitialPaymentsController extends Controller
         }
 
         $table = TableName::query()->findOrFail($id);
-        $table->reason_id = request('reason_id');
+        $table->reason = request('reason');
         $table->amount = request('amount');
         $table->note = request('note');
         $table->paid_at = request('paid_at');
@@ -114,23 +108,13 @@ class InitialPaymentsController extends Controller
         $items = TableName::query();
         if ($realstate) {
             $data['realstate'] = $realstate;
-            $items->where('initial_payments.realstate_id', $realstate->id);
+            $items->where('realstate_id', $realstate->id);
         } else {
-            return redirect()->back()->withInput()->withErrors(['Unknown real state!']);
+            return redirect()->back()->withInput()->withErrors(['Unknown real estate!']);
         }
 
-        // $items->whereNotNull('paid_at');
-        $items->orderBy('sort');
-        $items->join('reasons', 'initial_payments.reason_id', '=', 'reasons.id');
-        $items->join('realstates', 'initial_payments.realstate_id', '=', 'realstates.id');
-        $items->select([
-            'reason_id',
-            'reasons.name',
-            'reasons.sort',
-            'initial_payments.amount',
-            'initial_payments.note',
-            'initial_payments.paid_at',
-        ]);
+        $items->whereNotNull('paid_at');
+        $items->orderBy('paid_at', 'ASC');
 
         $data['items'] = $items->get();
         

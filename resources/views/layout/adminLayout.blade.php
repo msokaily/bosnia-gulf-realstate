@@ -429,8 +429,7 @@ License: For each use you must have a valid license purchased only from above li
                                                     {{ auth()->user()->full_name }}
                                                     <!-- <span class="badge badge-light-success fw-bold fs-8 px-2 py-1 ms-2">Admin</span> -->
                                                 </div>
-                                                <a href="{{ route('admin.admins.edit', auth()->user()->id) }}"
-                                                    class="fw-semibold text-muted text-hover-primary fs-7">{{ auth()->guard('admin')->user()->email }}</a>
+                                                <a class="fw-semibold text-muted text-hover-primary fs-7">{{ auth()->guard('admin')->user()->email }}</a>
                                             </div>
                                             <!--end::Username-->
                                         </div>
@@ -439,12 +438,14 @@ License: For each use you must have a valid license purchased only from above li
                                     <!--begin::Menu separator-->
                                     <div class="separator my-2"></div>
                                     <!--end::Menu separator-->
-                                    <!--begin::Menu item-->
-                                    <div class="menu-item px-5">
-                                        <a href="@if (isAdmin()) {{ route('admin.admins.edit', auth()->guard('admin')->user()->id) }}@else{{ route('admin.profile') }} @endif"
-                                            class="menu-link px-5">{{ __('siderbar.my_profile') }}</a>
-                                    </div>
-                                    <!--end::Menu item-->
+                                    @if (isSuperAdmin())
+                                        <!--begin::Menu item-->
+                                        <div class="menu-item px-5">
+                                            <a href="@if (isAdmin()) {{ route('admin.admins.edit', auth()->guard('admin')->user()->id) }}@else{{ route('admin.profile') }} @endif"
+                                                class="menu-link px-5">{{ __('siderbar.my_profile') }}</a>
+                                        </div>
+                                        <!--end::Menu item-->
+                                    @endif
                                     <!--begin::Menu item-->
                                     <div class="menu-item px-5">
                                         <a href="{{ route('admin.admins.edit_password', auth()->guard('admin')->user()->id) }}"
@@ -758,6 +759,7 @@ License: For each use you must have a valid license purchased only from above li
                                 <!--end:Menu item-->
                                 <!--end:Clients-->
 
+                                @if (isSuperAdmin())
                                 <!--begin:Reasons-->
                                 <!--begin:Menu item-->
                                 @php $menu_item = 'reasons'; @endphp
@@ -773,185 +775,9 @@ License: For each use you must have a valid license purchased only from above li
                                 </div>
                                 <!--end:Menu item-->
                                 <!--end:Reasons-->
+                                @endif
 
-                                <!--begin:Categories-->
-                                <!--begin:Menu item-->
-                                {{-- @php $menu_item = 'products'; @endphp
-									<div class="menu-item @if (in_array($uri1, [$menu_item])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<a class="menu-link" href="{{route("admin.$menu_item.index")}}">
-											<span class="menu-icon">
-												<i class="fa-solid fa-gift"></i>
-											</span>
-											<span class="menu-title">{{ __("siderbar.$menu_item") }}</span>
-										</a>
-										<!--end:Menu link-->
-									</div> --}}
-                                <!--end:Menu item-->
-                                <!--end:Categories-->
-                                {{-- 
-									<!--begin:Options-->
-									<!--begin:Menu item-->
-									@php $menu_item = 'options'; @endphp
-									<div class="menu-item @if (in_array($uri1, [$menu_item])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<a class="menu-link" href="{{route("admin.$menu_item.index")}}">
-											<span class="menu-icon">
-												<i class="fa-solid fa-cart-plus"></i>
-											</span>
-											<span class="menu-title">{{ __("siderbar.$menu_item") }}</span>
-										</a>
-										<!--end:Menu link-->
-									</div>
-									<!--end:Menu item-->
-									<!--end:Options-->
-
-									<!--begin:Durations-->
-									<!--begin:Menu item-->
-									@php $menu_item = 'durations'; @endphp
-									<div class="menu-item @if (in_array($uri1, [$menu_item])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<a class="menu-link" href="{{route("admin.$menu_item.index")}}">
-											<span class="menu-icon">
-												<i class="fa-solid fa-clock"></i>
-											</span>
-											<span class="menu-title">{{ __("siderbar.$menu_item") }}</span>
-										</a>
-										<!--end:Menu link-->
-									</div>
-									<!--end:Menu item-->
-									<!--end:Durations-->
-
-									<!--begin:Locations-->
-									<!--begin:Menu item-->
-									@php $menu_item = 'locations'; @endphp
-									<div class="menu-item @if (in_array($uri1, [$menu_item])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<a class="menu-link" href="{{route("admin.$menu_item.index")}}">
-											<span class="menu-icon">
-												<i class="fa-solid fa-map"></i>
-											</span>
-											<span class="menu-title">{{ __("siderbar.$menu_item") }}</span>
-										</a>
-										<!--end:Menu link-->
-									</div>
-									<!--end:Menu item-->
-									<!--end:Locations-->
-
-									<!--begin:Users-->
-									<!--begin:Menu item-->
-									<div class="menu-item @if (in_array($uri1, ['users'])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<a class="menu-link" href="{{route('admin.users.index')}}">
-											<span class="menu-icon">
-												<span class="fa fa-users"></span>
-											</span>
-											<span class="menu-title">Users</span>
-										</a>
-										<!--end:Menu link-->
-									</div>
-									<!--end:Menu item-->
-									<!--end:Users-->
-									
-									<!--begin:Employees-->
-									<!--begin:Menu item-->
-									<div class="menu-item @if (in_array($uri1, ['employees'])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<a class="menu-link" href="{{route('admin.employees.index')}}">
-											<span class="menu-icon">
-												<span class="fa fa-user-nurse"></span>
-											</span>
-											<span class="menu-title">Employees</span>
-										</a>
-										<!--end:Menu link-->
-									</div>
-									<!--end:Menu item-->
-									<!--end:Employees-->
-
-									<!--begin:Tags-->
-									<!--begin:Menu item-->
-									<div data-kt-menu-trigger="click" class="menu-item @if (in_array($uri1, ['tags'])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<span class="menu-link">
-											<span class="menu-icon">
-												<span class="fa fa-tag"></span>
-											</span>
-											<span class="menu-title">{{ __('siderbar.tags') }}</span>
-											<span class="menu-arrow"></span>
-										</span>
-										<!--end:Menu link-->
-										<!--begin:Menu sub-->
-										<div class="menu-sub menu-sub-accordion">
-											@if (isAdmin())
-												<!--begin:Menu item-->
-												<div class="menu-item @if (in_array($uri1, ['tags']) && in_array(request('type'), ['amenities'])) show @endif">
-													<!--begin:Menu link-->
-													<a class="menu-link" href="{{route('admin.tags.index')}}?type=amenities">
-														<span class="menu-bullet">
-															<i class="fa-regular fa-hashtag"></i>
-														</span>
-														<span class="menu-title">{{ __('siderbar.amenities') }}</span>
-													</a>
-													<!--end:Menu link-->
-												</div>
-												<!--end:Menu item-->
-												<!--begin:Menu item-->
-												<div class="menu-item @if (in_array($uri1, ['tags']) && in_array(request('type'), ['details'])) show @endif">
-													<!--begin:Menu link-->
-													<a class="menu-link" href="{{route('admin.tags.index')}}?type=details">
-														<span class="menu-bullet">
-															<i class="fa-solid fa-circle-info"></i>
-														</span>
-														<span class="menu-title">{{ __('siderbar.details') }}</span>
-													</a>
-													<!--end:Menu link-->
-												</div>
-												<!--end:Menu item-->
-											@endif
-										</div>
-										<!--end:Menu sub-->
-									</div>
-									<!--end:Menu item-->
-									<!--end:Tags--> --}}
-
-                                @if (isAdmin())
-                                    <!--begin:Customer Service-->
-                                    <!--begin:Menu item-->
-                                    {{-- <div data-kt-menu-trigger="click" class="menu-item @if (in_array($uri1, ['inbox', 'viewMessage'])) show @endif menu-accordion">
-										<!--begin:Menu link-->
-										<span class="menu-link">
-											<span class="menu-icon">
-												<span class="fa fa-address-book"></span>
-											</span>
-											<span class="menu-title">{{__('siderbar.customer_service')}}</span>
-											<span class="menu-arrow"></span>
-										</span>
-										<!--end:Menu link-->
-										<!--begin:Menu sub-->
-										<div class="menu-sub menu-sub-accordion">
-                                            <!--begin:Menu item-->
-											<div class="menu-item @if (in_array($uri1, ['inbox', 'viewMessage'])) show @endif">
-												<!--begin:Menu item-->
-												<div class="menu-item @if (in_array($uri1, ['inbox', 'viewMessage'])) show @endif">
-													<!--begin:Menu link-->
-													<a class="menu-link" href="{{route('admin.inbox')}}">
-														<span class="menu-icon fas fa-envelope icon-lg"></span>
-														<span class="menu-title">{{__('siderbar.inbox')}}</span>
-														@if ($inbox > 0) 
-															<span style="" class="badge badge-danger">{{$inbox}}</span>
-														@endif
-													</a>
-													<!--end:Menu link-->
-												</div>
-												<!--end:Menu item-->
-											</div>
-											<!--end:Menu item-->
-										</div>
-										<!--end:Menu sub-->
-									</div> --}}
-                                    <!--end:Menu item-->
-                                    <!--end:Customer Service-->
-
+                                @if (isSuperAdmin())
                                     <!--begin:System Management-->
                                     <!--begin:Menu item-->
                                     <div data-kt-menu-trigger="click"
@@ -985,16 +811,16 @@ License: For each use you must have a valid license purchased only from above li
                                             <div class="menu-item @if (in_array($uri1, ['settings', 'admins'])) show @endif">
 
                                                 {{-- <!--begin:Menu item-->
-												<div class="menu-item @if (in_array($uri1, ['settings'])) show here @endif">
-													<!--begin:Menu link-->
-													<a class="menu-link" href="{{route('admin.settings.index')}}">
-														<span class="menu-icon fas fa-cogs
-														icon-lg"></span>
-														<span class="menu-title">{{__('common.settings')}}</span>
-													</a>
-													<!--end:Menu link-->
-												</div>
-												<!--end:Menu item--> --}}
+                                                <div class="menu-item @if (in_array($uri1, ['settings'])) show here @endif">
+                                                    <!--begin:Menu link-->
+                                                    <a class="menu-link" href="{{route('admin.settings.index')}}">
+                                                        <span class="menu-icon fas fa-cogs
+                                                        icon-lg"></span>
+                                                        <span class="menu-title">{{__('common.settings')}}</span>
+                                                    </a>
+                                                    <!--end:Menu link-->
+                                                </div>
+                                                <!--end:Menu item--> --}}
 
                                                 <!--begin:Menu item-->
                                                 <div
@@ -1113,14 +939,6 @@ License: For each use you must have a valid license purchased only from above li
                                 <a href="{{ url('') }}" target="_blank"
                                     class="text-gray-800 text-hover-primary">{{ env('APP_NAME') }}</a>
                             </div>
-                            @if (isCompany())
-                                <div class="text-dark order-2 order-md-1">
-                                    <a href="{{ url('') }}" target="_blank"
-                                        class="text-gray-800 text-hover-primary"><img
-                                            src="{{ Auth::user()->image_url }}" style="height:60px;"
-                                            id="editImage"></a>
-                                </div>
-                            @endif
                             <!--end::Copyright-->
                         </div>
                         <!--end::Footer container-->
