@@ -1,5 +1,7 @@
 <?php
 return [
+    "unfinished_construction" => "UnFinished Construction",
+    "finished_construction" => "Finished Construction",
     "remain" => "Remain",
     "sum" => "Total Summation",
     "payments_" => "Payments",

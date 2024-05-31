@@ -158,6 +158,10 @@
                                         <a href="{{ route('admin.extra-payments.index') }}?realstate={{ $item->id.$all }}"
                                             class="menu-link px-3 btn btn-sm btn-dark mt-1">{{ __('common.extra_payments') }}</a>
                                         <!--end::Menu item-->
+                                        <!--begin::Menu item-->
+                                        <a href="{{ route('admin.'.$page_name.'.finished', $item->id) }}?realstate={{ $item->id.$all }}" title="{{ $item->finished_at ? 'it will disappear from bills manager account' : 'it will appear to bills manager account'}}"
+                                            class="menu-link px-3 btn btn-sm btn-{{$item->finished_at ? 'danger' : 'success'}} mt-1">{{__($item->finished_at ? 'common.unfinished_construction' : 'common.finished_construction') }}</a>
+                                        <!--end::Menu item-->
                                     @endif
                                 </div>
                                 <!--end::Menu-->

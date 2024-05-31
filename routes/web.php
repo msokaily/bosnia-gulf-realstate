@@ -109,6 +109,10 @@ Route::group([
             Route::post('products/sort', 'Admin\ProductsController@sort')->name('products.sort');
 
             Route::group(['middleware' => ['super_admin']], function () {
+
+                // Realstates Finished
+                Route::get('realestates/finished/{id}', 'Admin\RealstatesController@finished')->name('realestates.finished');
+
                 // Inital Payments
                 Route::get('initial-payments/print/{id}', 'Admin\InitialPaymentsController@paymentsPrint')->name('initial-payments.payments-print');
                 Route::resource('initial-payments', 'Admin\InitialPaymentsController');

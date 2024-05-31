@@ -1,5 +1,7 @@
 <?php
 return [
+    "unfinished_construction" => "لم ينتهي البناء",
+    "finished_construction" => "إنتهى البناء",
     "remain" => "متبقي",
     "sum" => "المجموع الكلي",
     "payments_" => "الدفعات",

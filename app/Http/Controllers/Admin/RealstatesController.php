@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Client;
 use App\Models\Realstate as TableName;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Route;
 
@@ -106,6 +107,20 @@ class RealstatesController extends Controller
         $table->save();
 
         return redirect(route("admin.".self::$name.".index").'?client='.$table->client_id)->with('status', __('common.update'));
+    }
+
+    public function finished($id, Request $request)
+    {
+        $item = TableName::where('id', $id)->first();
+        if ($item) {
+            if ($item->finished_at) {
+                $item->finished_at = null;
+            } else {
+                $item->finished_at = Carbon::now();
+            }
+            $item->save();
+        }
+        return redirect()->back()->with('status', __('common.update'));
     }
 
 }
